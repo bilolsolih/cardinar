@@ -26,15 +26,14 @@ class CartItem(models.Model):
     cart = models.ForeignKey(
         verbose_name=_('Cart'), to='cart.Cart', related_name='items', on_delete=models.CASCADE
     )
-
     content_type = models.ForeignKey(
         ContentType, on_delete=models.CASCADE, limit_choices_to={'model__in': ('carcover', 'polik', 'nakidka')}
     )
     object_id = models.PositiveIntegerField(verbose_name=_('Object id'))
     product = GenericForeignKey('content_type', 'object_id')
-
     quantity = models.PositiveIntegerField(verbose_name=_('Quantity'), default=0)
     cost = models.DecimalField(verbose_name=_('Cost'), max_digits=24, decimal_places=2, default=0)
+    car_model = models.Char
 
     class Meta:
         verbose_name = _('Cart item')
@@ -46,3 +45,5 @@ class CartItem(models.Model):
 
 # TODO: Coupon system
 # TODO: Kupit v odin klikni to'g'irlash kerak,logikasini va modellarini tuzish kerak
+# TODO: Dostavka uchun, narxi uchun, kuni uchun model qilish kerak
+# TODO: Working hours uchun model

@@ -26,6 +26,9 @@ class BaseProduct(models.Model):
     is_constructed = models.BooleanField(verbose_name=_('Is constructed?'), default=False)
     car_brands = models.ManyToManyField(verbose_name=_('Car brands'), to='store.CarBrand', related_name='%(class)ss')
     car_models = models.ManyToManyField(verbose_name=_('Car models'), to='store.CarModel', related_name='%(class)ss')
+    building_material = models.ForeignKey(
+        verbose_name=_('Building material'), to='store.BuildingMaterial', related_name='%(class)ss', on_delete=models.SET_NULL, null=True
+    )
     active = models.BooleanField(verbose_name=_('Is active'), default=True)
 
     created = models.DateTimeField(verbose_name=_('Created at'), auto_now_add=True, null=True)
@@ -72,7 +75,7 @@ class CarCover(BaseProduct):
     def __str__(self):
         return f"{self.title} - {self.category.title}"
 
-
+# TODO: chexol uchun modell chexla qo'shish - model orqali
 class Polik(BaseProduct):
     class Meta:
         verbose_name = _('Polik')
