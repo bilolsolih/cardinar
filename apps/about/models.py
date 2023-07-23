@@ -64,4 +64,6 @@ class SocialMedia(models.Model):
 
     def __str__(self):
         return f"{self.social_media} - {self.link}"
+
+
 # TODO: Gde Kupit, Footerda, hal qilish kerak
