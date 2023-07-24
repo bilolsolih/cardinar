@@ -16,6 +16,7 @@ urlpatterns = i18n_patterns(
     path('api/v1/store/', include('apps.store.urls', namespace='store')),
     path('api/v1/inquiries/', include('apps.inquiries.urls', namespace='inquiries')),
     path('api/v1/orders/', include('apps.orders.urls', namespace='orders')),
+    path('api/v1/constructor/', include('apps.constructor.urls', namespace='constructor')),
     path("api/v1/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/v1/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 )
