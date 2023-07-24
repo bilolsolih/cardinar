@@ -32,6 +32,7 @@ CUSTOM_APPS = [
     "apps.inquiries",
     "apps.cart",
     "apps.orders",
+    "apps.constructor",
 ]
 
 DJANGO_APPS = [

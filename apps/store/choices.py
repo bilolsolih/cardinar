@@ -1,10 +1,10 @@
 PRODUCT_STATUS = (
-    ('h', 'Hit'),
-    ('n', 'New'),
-    ('s', 'Sale')
+    ('Hit', 'Hit'),
+    ('New', 'New'),
+    ('Sale', 'Sale')
 )
 
 PRODUCT_TYPE = (
-    ('p', 'Premium'),
-    ('b', 'Basic')
+    ('Premium', 'Premium'),
+    ('Basic', 'Basic')
 )

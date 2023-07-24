@@ -11,9 +11,9 @@ class PolikFilterSet(FilterSet):
     car_brands = django_filters.ModelMultipleChoiceFilter(field_name='car_brands__pk')
     car_models = django_filters.ModelMultipleChoiceFilter(field_name='car_models__pk')
 
-    class Meta:
-        model = Polik
-        fields = ['category', 'main_color']
+    # class Meta:
+    #     model = Polik
+    #     fields = ['category', 'main_color']
 
 
 class PolikListAPIView(ListAPIView):
