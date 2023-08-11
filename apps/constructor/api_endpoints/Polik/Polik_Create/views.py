@@ -5,7 +5,6 @@ from .serializer import PolikCreateSerializer
 
 
 class PolikCreateAPIView(CreateAPIView):
-    queryset = Polik.objects.all()
     serializer_class = PolikCreateSerializer
 
     def perform_create(self, serializer):

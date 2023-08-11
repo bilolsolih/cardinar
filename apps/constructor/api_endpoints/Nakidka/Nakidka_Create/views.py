@@ -5,7 +5,6 @@ from .serializer import NakidkaCreateSerializer
 
 
 class NakidkaCreateAPIView(CreateAPIView):
-    queryset = Polik.objects.all()
     serializer_class = NakidkaCreateSerializer
 
     def perform_create(self, serializer):
