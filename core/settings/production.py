@@ -1,6 +1,6 @@
 from .base import *  # noqa
 
-ALLOWED_HOSTS = ['bilolsolih.pythonanywhere.com']
+ALLOWED_HOSTS = ["cardinar.uz", "www.cardinar.uz"]
 
 DATABASES = {
     "default": {
