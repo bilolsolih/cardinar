@@ -1,6 +1,6 @@
 from .base import *  # noqa
 
-ALLOWED_HOSTS = ["cardinar.uz", "www.cardinar.uz"]
+ALLOWED_HOSTS = ["cardinar.uz", "www.cardinar.uz", '127.0.0.1']
 
 DATABASES = {
     "default": {
@@ -9,6 +9,6 @@ DATABASES = {
     }
 }
 
-DEBUG = False
+DEBUG = True
 
 ADMINS = [("BlackHoler", "BilolMuhammadSolih@gmail.com")]
