@@ -50,10 +50,10 @@ DJANGO_APPS = [
 INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -128,7 +128,7 @@ USE_TZ = True
 
 STATIC_URL = 'backend/static/'
 STATIC_ROOT = BASE_DIR / 'static'
-STATICFILES_DIRS = [str(BASE_DIR)+"/assets", ]
+STATICFILES_DIRS = [str(BASE_DIR) + "/assets", ]
 MEDIA_URL = "backend/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
