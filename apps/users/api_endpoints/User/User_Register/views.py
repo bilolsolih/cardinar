@@ -1,4 +1,3 @@
-from apps.cart.models import Cart
 from apps.users.models import User
 from rest_framework import status
 from rest_framework.generics import CreateAPIView
@@ -23,9 +22,8 @@ class UserRegisterAPIView(CreateAPIView):
                 continue
             else:
                 defaults[key] = value
-        defaults['is_active'] = True
 
-        if User.objects.filter(username=username, is_active=True):
+        if User.objects.filter(username=username, is_active=True).first():
             return Response({'message': 'Username is not available.'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             try:
@@ -33,14 +31,13 @@ class UserRegisterAPIView(CreateAPIView):
                 for key, value in defaults.items():
                     setattr(user, key, value)
                 user.set_password(cd['password1'])
+                user.is_active = True
                 user.save()
-                Cart.objects.create(user=user)
                 return Response(status=status.HTTP_201_CREATED)
             except User.DoesNotExist:
                 user = User.objects.create(username=username, **defaults)
                 user.set_password(cd['password1'])
                 user.save()
-                Cart.objects.create(user=user)
                 return Response(status=status.HTTP_201_CREATED)
 
 

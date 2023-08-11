@@ -38,7 +38,7 @@ class UserPasswordResetSendLinkAPIView(APIView):
 
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         reset_url = request.build_absolute_uri(reverse('users:password_reset', kwargs={'uidb64': uid, 'token': token}))
-        send_email.delay(
+        send_email(
             subject='Password Reset',
             message=f'Click the link to reset your password: {reset_url}',
             sender=os.getenv('SMTP_USERNAME'),

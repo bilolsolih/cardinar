@@ -4,7 +4,7 @@ from .models import PaymentType
 
 
 class PaymentTypeTranslationOptions(TranslationOptions):
-    fields = ('title',)
+    fields = ['title']
 
 
 translator.register(PaymentType, PaymentTypeTranslationOptions)

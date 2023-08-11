@@ -1,5 +1,3 @@
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
@@ -19,7 +17,8 @@ class Order(models.Model):
     email = models.EmailField(verbose_name=_('Email'), blank=True, null=True)
     delivery_type = models.CharField(verbose_name=_('Delivery type'), choices=DELIVERY_TYPES, max_length=1)
     payment_method = models.ForeignKey(
-        verbose_name=_('Payment method'), to='orders.PaymentType', related_name='orders', on_delete=models.SET_NULL, null=True
+        verbose_name=_('Payment method'), to='orders.PaymentType', related_name='orders', on_delete=models.SET_NULL,
+        null=True
     )
     final_price = models.DecimalField(verbose_name=_('Final price'), max_digits=24, decimal_places=2, default=0)
     created = models.DateTimeField(verbose_name=_('Created at'), auto_now_add=True)
@@ -38,14 +37,11 @@ class OrderItem(models.Model):
     order = models.ForeignKey(
         verbose_name=_('Order'), to='orders.Order', related_name='items', on_delete=models.CASCADE
     )
-    content_type = models.ForeignKey(
-        ContentType, on_delete=models.CASCADE, limit_choices_to={'model__in': ('carcover', 'polik', 'nakidka')}
+    product = models.ForeignKey(
+        verbose_name=_('Product'), to='store.Product', related_name='orders', on_delete=models.SET_NULL, null=True
     )
-    object_id = models.PositiveIntegerField(verbose_name=_('Object id'))
-    product = GenericForeignKey('content_type', 'object_id')
-
     quantity = models.PositiveIntegerField(verbose_name=_('Quantity'))
-    cost = models.DecimalField(verbose_name=_('Cost'), max_digits=24, decimal_places=2)
+    cost = models.PositiveIntegerField(verbose_name=_('Cost'))
 
     @property
     def get_product_title(self):
@@ -68,3 +64,5 @@ class PaymentType(models.Model):
 
     def __str__(self):
         return self.title
+
+# todo: api lardagi permissionlarni ko'rib chiqish
