@@ -4,8 +4,8 @@ from asgiref.sync import async_to_sync
 from rest_framework.generics import CreateAPIView
 from telegram import Bot
 from telegram.error import NetworkError
+from django.apps import apps
 
-from apps.store.models.product import Product
 from apps.users.models import TelegramUser
 from .serializers import InquiryCreateSerializer
 
@@ -22,12 +22,8 @@ class InquiryCreateAPIView(CreateAPIView):
     def perform_create(self, serializer):
         q = serializer.save()
         if q.on_product:
-            product = Product.objects.filter(pk=q.on_product.pk).first()
-            if product:
-                product_details = f"ID: {product.pk}, Название: {product.title}, Коллекция: {product.collection.title}"
-                message = f"Новый запрос:\n\nПолное имя: {q.full_name}\nТелефон: {q.phone_number}\nПочта: {q.email}\n{product_details}"
-            else:
-                raise ValueError('Such product doesn\'t exist.')
+            product_details = f"ID: {q.on_product.pk}, Название: {q.on_product.title}, Категория: {q.on_product.category.title}"
+            message = f"Новый запрос:\n\nПолное имя: {q.full_name}\nТелефон: {q.phone_number}\nПочта: {q.email}\n{product_details}"
         else:
             message = f"Новый запрос:\n\nПолное имя: {q.full_name}\nТелефон: {q.phone_number}\nПочта: {q.email}"
         try:

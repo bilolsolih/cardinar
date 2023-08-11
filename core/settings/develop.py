@@ -11,4 +11,4 @@ DATABASES = {
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["cardinar.uz", "www.cardinar.uz"]
