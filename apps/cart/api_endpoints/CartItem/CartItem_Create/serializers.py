@@ -1,31 +1,29 @@
-from django.apps import apps
 from rest_framework import serializers
 
+from apps.cart.models import CartItem
 
-class CartItemCreateSerializer(serializers.Serializer):
-    quantity = serializers.IntegerField()
-    product_id = serializers.CharField()
-    content_type = serializers.CharField()
+
+class CartItemCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CartItem
+        fields = ['device_id', 'content_type', 'object_id', 'quantity', 'car_model']
 
     def validate(self, data):
-        app_label, model_name = data.validated_data['content_type'].split('.')
-        model = apps.get_model(app_label=app_label, model_name=model_name)
-        product = model.objects.filter(pk=data.validated_data['product_id']).first()
+        if hasattr(data, 'device_id') and data['device_id'] and self.context['request'].user.is_authenticated:
+            raise serializers.ValidationError('Authenticated users don\'t have to provide device_id.')
+        return data
 
-        if product:
-            validated_data = dict()
-            validated_data['content_type'] = data['content_type']
-            validated_data['product_id'] = data['product_id']
-            validated_data['quantity'] = data['quantity']
-            validated_data['title'] = product.title
-            validated_data['price'] = product.price
-            validated_data['url'] = product.photo.url
-            return validated_data
+    def create(self, data):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            item = CartItem.objects.create(
+                cart=user.cart, content_type=data['product'], object_id=data['object_id'], quantity=data['quantity'], car_model=data['car_model'],
+                cost=(data['product'].price * data['quantity'])
+            )
         else:
-            raise serializers.ValidationError('Such product doesn\'t exist.')
-
-    def create(self, validated_data):
-        pass
-
-    def update(self, instance, validated_data):
-        pass
+            item = CartItem.objects.create(
+                device_id=data['device_id'], content_type=data['product'], object_id=data['object_id'], quantity=data['quantity'],
+                car_model=data['car_model'],
+                cost=(data['product'].price * data['quantity'])
+            )
+        return item

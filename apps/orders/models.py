@@ -1,13 +1,15 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 from .choices import DELIVERY_TYPES, ORDER_STATUS
 
 
 class Order(models.Model):
     user = models.ForeignKey(
-        verbose_name=_('User'), to='users.User', related_name='orders', on_delete=models.CASCADE, null=True
+        verbose_name=_('User'), to='users.User', related_name='orders', on_delete=models.CASCADE, blank=True, null=True
     )
     store = models.ForeignKey(
         verbose_name=_('Store'), to='store.Store', related_name='orders', on_delete=models.SET_NULL, null=True
@@ -37,9 +39,11 @@ class OrderItem(models.Model):
     order = models.ForeignKey(
         verbose_name=_('Order'), to='orders.Order', related_name='items', on_delete=models.CASCADE
     )
-    product = models.ForeignKey(
-        verbose_name=_('Product'), to='store.Product', related_name='orders', on_delete=models.SET_NULL, null=True
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE, limit_choices_to={'model__in': ('carcover', 'polik', 'nakidka')}
     )
+    object_id = models.PositiveIntegerField(verbose_name=_('Object id'))
+    product = GenericForeignKey('content_type', 'object_id')
     quantity = models.PositiveIntegerField(verbose_name=_('Quantity'))
     cost = models.PositiveIntegerField(verbose_name=_('Cost'))
 

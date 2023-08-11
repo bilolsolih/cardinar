@@ -1,31 +1,54 @@
-from django.conf import settings
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
+from rest_framework.generics import DestroyAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.cart.models import CartItem
 
-class CartItemDeleteAPIView(APIView):
-    def get(self, request, *args, **kwargs):
-        id = str(self.kwargs.get('pk'))
-        cart = request.session.get(settings.CART_SESSION_ID, None)
-        if id in cart:
-            del cart[id]
-            request.session.modified = True
-        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class CartItemDeleteAPIView(DestroyAPIView):
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter('device_id', openapi.IN_QUERY, description='Device id', type=openapi.TYPE_STRING),
+        ]
+    )
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+    def get_queryset(self):
+        user = self.request.user if self.request.user.is_authenticated else None
+        device_id = self.request.query_params.get('device_id', None)
+        if user and device_id:
+            raise ValueError('device_id is needed only for guest users.')
+        if user:
+            return CartItem.objects.filter(cart__user=user)
+        else:
+            return CartItem.objects.filter(device_id=device_id)
 
 
 class CartItemDeleteAllAPIView(APIView):
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter('device_id', openapi.IN_QUERY, description='Device id', type=openapi.TYPE_STRING),
+        ]
+    )
     def delete(self, request, *args, **kwargs):
-        cart = request.session.get(settings.CART_SESSION_ID, None)
-        if cart:
-            del request.session['cart']
-            request.session.modified = True
-            return Response(status=status.HTTP_204_NO_CONTENT)
+        query_set = self.get_queryset(request)
+        query_set.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @staticmethod
+    def get_queryset(request):
+        user = request.user if request.user.is_authenticated else None
+        device_id = request.query_params.get('device_id', None)
+        if user and device_id:
+            raise ValueError('device_id is needed only for guest users.')
+        if user:
+            return CartItem.objects.filter(cart__user=user)
         else:
-            return Response(status=status.HTTP_204_NO_CONTENT)
-            # for key in list(cart.keys()):
-            #     del cart[key]
-            # self.request.session.modified = True
+            return CartItem.objects.filter(device_id=device_id)
 
 
 __all__ = ['CartItemDeleteAPIView', 'CartItemDeleteAllAPIView']

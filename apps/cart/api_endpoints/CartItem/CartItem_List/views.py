@@ -1,15 +1,31 @@
-from django.conf import settings
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework.generics import ListAPIView
+
+from apps.cart.models import CartItem
+from .serializers import CartItemListSerializer
 
 
-class CartItemListAPIView(APIView):
+class CartItemListAPIView(ListAPIView):
+    serializer_class = CartItemListSerializer
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter('device_id', openapi.IN_QUERY, description='Device id', type=openapi.TYPE_STRING),
+        ]
+    )
     def get(self, request, *args, **kwargs):
-        cart = request.session.get(settings.CART_SESSION_ID, None)
-        if not cart:
-            return Response({'detail': 'The cart is empty yet.'}, status=status.HTTP_404_NOT_FOUND)
-        return Response(cart, status=status.HTTP_200_OK)
+        return self.list(request, *args, **kwargs)
+
+    def get_queryset(self):
+        user = self.request.user if self.request.user.is_authenticated else None
+        device_id = self.request.query_params.get('device_id', None)
+        if user and device_id:
+            raise ValueError('device_id is needed only for guest users.')
+        if user:
+            return CartItem.objects.filter(cart__user=user)
+        else:
+            return CartItem.objects.filter(device_id=device_id)
 
 
 __all__ = ['CartItemListAPIView']

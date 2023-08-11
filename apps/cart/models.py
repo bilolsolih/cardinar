@@ -24,8 +24,9 @@ class Cart(models.Model):
 
 class CartItem(models.Model):
     cart = models.ForeignKey(
-        verbose_name=_('Cart'), to='cart.Cart', related_name='items', on_delete=models.CASCADE
+        verbose_name=_('Cart'), to='cart.Cart', related_name='items', on_delete=models.CASCADE, blank=True, null=True
     )
+    device_id = models.CharField(verbose_name=_('Device id'), max_length=64, blank=True, null=True)
     content_type = models.ForeignKey(
         ContentType, on_delete=models.CASCADE, limit_choices_to={'model__in': ('carcover', 'polik', 'nakidka')}
     )
