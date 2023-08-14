@@ -133,7 +133,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-MEDIA_URL = "backend/media/"
+MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # Default primary key field type
@@ -184,10 +184,10 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.AnonRateThrottle",
         "rest_framework.throttling.UserRateThrottle",
     ),
-    # "DEFAULT_THROTTLE_RATES": {
-    #     "anon": "10/second",
-    #     "user": "10/second",
-    # },
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "1/second",
+        "user": "2/second",
+    },
     "DEFAULT_PARSER_CLASSES": (
         "rest_framework.parsers.FormParser",
         "rest_framework.parsers.MultiPartParser",
