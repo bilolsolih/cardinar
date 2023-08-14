@@ -1,11 +1,11 @@
 from rest_framework.serializers import ModelSerializer
 
-from apps.store.models.product import CarCover
+from apps.store.models.product import Product
 
 
-class CarCoverRetrieveSerializer(ModelSerializer):
+class ProductRetrieveSerializer(ModelSerializer):
     class Meta:
-        model = CarCover
+        model = Product
         fields = [
             'id',
             'category',

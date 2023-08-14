@@ -1,101 +1,11 @@
 import os
 
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from apps.common.models import TimeStampedModel
 from apps.store.choices import PRODUCT_STATUS, PRODUCT_TYPE
 
-
-class BaseProduct(models.Model):
-    category = models.ForeignKey(
-        verbose_name=_('Category'), to='store.Category', related_name='%(class)ss', on_delete=models.SET_NULL, null=True
-    )
-    main_color = models.ForeignKey(
-        verbose_name=_('Main color'), to='store.Color', related_name='%(class)ss', on_delete=models.SET_NULL, null=True
-    )
-    title = models.CharField(verbose_name=_('Title'), max_length=256)
-    type = models.CharField(verbose_name=_('Type'), choices=PRODUCT_TYPE, max_length=7, default='Basic')
-    status = models.CharField(verbose_name=_('Status'), choices=PRODUCT_STATUS, max_length=4, blank=True, null=True)
-    photo = models.ImageField(verbose_name=_('Photo'), upload_to='images/store/products/%Y/%m/%d')
-    description = models.TextField(verbose_name=_('Description'))
-    price = models.DecimalField(verbose_name=_('Price'), max_digits=24, decimal_places=2)
-    purchase_count = models.PositiveIntegerField(verbose_name=_('Purchase count'), default=0)
-    is_constructed = models.BooleanField(verbose_name=_('Is constructed?'), default=False)
-    car_brands = models.ManyToManyField(verbose_name=_('Car brands'), to='store.CarBrand', related_name='%(class)ss')
-    car_models = models.ManyToManyField(verbose_name=_('Car models'), to='store.CarModel', related_name='%(class)ss')
-    building_material = models.ForeignKey(
-        verbose_name=_('Building material'), to='store.BuildingMaterial', related_name='bm_%(class)ss', on_delete=models.SET_NULL, null=True
-    )
-    active = models.BooleanField(verbose_name=_('Is active'), default=True)
-
-    created = models.DateTimeField(verbose_name=_('Created at'), auto_now_add=True, null=True)
-    updated = models.DateTimeField(verbose_name=_('Updated at'), auto_now=True, null=True)
-
-    class Meta:
-        abstract = True
-
-
-# TODO: sotib olinganida purchase_count increment qilinishi kerak
-class CarCover(BaseProduct):
-    central_part_color = models.ForeignKey(
-        verbose_name=_('Central part color'), to='store.Color', related_name='cp_%(class)ss', on_delete=models.SET_NULL, null=True
-    )
-    central_part_material = models.ForeignKey(
-        verbose_name=_('Central material'), to='store.BuildingMaterial', related_name='cp_%(class)ss', on_delete=models.SET_NULL, null=True
-    )
-    rear_color = models.ForeignKey(
-        verbose_name=_('Rear color'), to='store.Color', related_name='rc_%(class)ss', on_delete=models.SET_NULL, null=True
-    )
-    rear_material = models.ForeignKey(
-        verbose_name=_('Rear material'), to='store.BuildingMaterial', related_name='rc_%(class)ss', on_delete=models.SET_NULL, null=True
-    )
-    side_color = models.ForeignKey(
-        verbose_name=_('Side color'), to='store.Color', related_name='s_%(class)ss', on_delete=models.SET_NULL, null=True
-    )
-    side_material = models.ForeignKey(
-        verbose_name=_('Side material'), to='store.BuildingMaterial', related_name='s_%(class)ss', on_delete=models.SET_NULL, null=True
-    )
-    stitch_color = models.ForeignKey(
-        verbose_name=_('Stitch color'), to='store.Color', related_name='st_%(class)ss', on_delete=models.SET_NULL, null=True
-    )
-    has_kant = models.BooleanField(
-        verbose_name=_('Has Kant?'), default=True
-    )
-    kant_color = models.ForeignKey(
-        verbose_name=_('Kant color'), to='store.Color', related_name='k_%(class)ss', on_delete=models.SET_NULL, null=True, blank=True
-    )
-
-    class Meta:
-        verbose_name = _('Car cover')
-        verbose_name_plural = _('Car covers')
-
-    def __str__(self):
-        return f"{self.title} - {self.category.title}"
-
-
-# TODO: chexol uchun modell chexla qo'shish - model orqali
-class Polik(BaseProduct):
-    class Meta:
-        verbose_name = _('Polik')
-        verbose_name_plural = _('Poliks')
-
-    def __str__(self):
-        return f"{self.title} - {self.category.title}"
-
-
-class Nakidka(BaseProduct):
-    class Meta:
-        verbose_name = _('Nakidka')
-        verbose_name_plural = _('Nakidkas')
-
-    def __str__(self):
-        return f"{self.title} - {self.category.title}"
-
-
-# TODO: similar products ni aniqlash uchun algo va API
 
 class Category(models.Model):
     title = models.CharField(verbose_name=_("Title"), max_length=128)
@@ -108,12 +18,70 @@ class Category(models.Model):
         return self.title
 
 
-class Photo(TimeStampedModel):
-    content_type = models.ForeignKey(
-        ContentType, on_delete=models.CASCADE, limit_choices_to={'model__in': ('carcover', 'polik', 'nakidka')}
+class Product(TimeStampedModel):
+    category = models.ForeignKey(
+        verbose_name=_('Category'), to='store.Category', related_name='products', on_delete=models.SET_NULL, null=True
     )
-    object_id = models.PositiveIntegerField(verbose_name=_('Object id'))
-    product = GenericForeignKey('content_type', 'object_id')
+    title = models.CharField(verbose_name=_('Title'), max_length=256)
+    type = models.CharField(verbose_name=_('Type'), choices=PRODUCT_TYPE, max_length=7, default='Basic')
+    status = models.CharField(verbose_name=_('Status'), choices=PRODUCT_STATUS, max_length=4, blank=True, null=True)
+    photo = models.ImageField(verbose_name=_('Photo'), upload_to='images/store/products/%Y/%m/%d')
+    description = models.TextField(verbose_name=_('Description'), blank=True, null=True)
+    price = models.PositiveIntegerField(verbose_name=_('Price'))
+    no_in_stock = models.PositiveIntegerField(verbose_name=_('Number in stock'), null=True, blank=True)
+    purchase_count = models.PositiveIntegerField(verbose_name=_('Purchase count'), default=0)
+    is_constructed = models.BooleanField(verbose_name=_('Is constructed?'), default=False)
+    car_brands = models.ManyToManyField(verbose_name=_('Car brands'), to='store.CarBrand', related_name='products', blank=True, null=True)
+    car_models = models.ManyToManyField(verbose_name=_('Car models'), to='store.CarModel', related_name='products')
+    main_color = models.ForeignKey(verbose_name=_('Main color'), to='store.Color', related_name='mc_products', on_delete=models.SET_NULL, null=True)
+    building_material = models.ForeignKey(
+        verbose_name=_('Building material'), to='store.BuildingMaterial', related_name='bm_products', on_delete=models.SET_NULL, null=True
+    )
+    central_part_color = models.ForeignKey(
+        verbose_name=_('Central part color'), to='store.Color', related_name='cp_products', on_delete=models.SET_NULL, null=True, blank=True
+    )
+    central_part_material = models.ForeignKey(
+        verbose_name=_('Central material'), to='store.BuildingMaterial', related_name='cp_products', on_delete=models.SET_NULL, null=True, blank=True
+    )
+    rear_color = models.ForeignKey(
+        verbose_name=_('Rear color'), to='store.Color', related_name='rc_products', on_delete=models.SET_NULL, null=True, blank=True
+    )
+    rear_material = models.ForeignKey(
+        verbose_name=_('Rear material'), to='store.BuildingMaterial', related_name='rm_products', on_delete=models.SET_NULL, null=True, blank=True
+    )
+    side_color = models.ForeignKey(
+        verbose_name=_('Side color'), to='store.Color', related_name='sc_products', on_delete=models.SET_NULL, null=True, blank=True
+    )
+    side_material = models.ForeignKey(
+        verbose_name=_('Side material'), to='store.BuildingMaterial', related_name='sm_products', on_delete=models.SET_NULL, null=True, blank=True
+    )
+    stitch_color = models.ForeignKey(
+        verbose_name=_('Stitch color'), to='store.Color', related_name='st_products', on_delete=models.SET_NULL, null=True, blank=True
+    )
+    has_kant = models.BooleanField(
+        verbose_name=_('Has Kant?'), default=False
+    )
+    kant_color = models.ForeignKey(
+        verbose_name=_('Kant color'), to='store.Color', related_name='k_products', on_delete=models.SET_NULL, null=True, blank=True
+    )
+
+    active = models.BooleanField(verbose_name=_('Is active'), default=True)
+
+    class Meta:
+        verbose_name = _('Product')
+        verbose_name_plural = _('Product')
+
+    def __str__(self):
+        return f"{self.title} - {self.category.title}"
+
+
+# TODO: sotib olinganida purchase_count increment qilinishi kerak
+# TODO: chexol uchun modell chexla qo'shish - model orqali
+# TODO: similar products ni aniqlash uchun algo va API
+
+
+class Photo(TimeStampedModel):
+    product = models.ForeignKey(verbose_name=_('Product'), to='store.Product', related_name='photos', on_delete=models.PROTECT)
     title = models.CharField(verbose_name=_('Title'), max_length=256)
     photo = models.ImageField(verbose_name=_('Photo'), upload_to='images/store/products/%Y/%m/%d')
 

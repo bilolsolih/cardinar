@@ -1,26 +1,20 @@
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
 
 from .choices import DELIVERY_TYPES, ORDER_STATUS
 
 
 class Order(models.Model):
-    user = models.ForeignKey(
-        verbose_name=_('User'), to='users.User', related_name='orders', on_delete=models.CASCADE, blank=True, null=True
-    )
-    store = models.ForeignKey(
-        verbose_name=_('Store'), to='store.Store', related_name='orders', on_delete=models.SET_NULL, null=True
-    )
+    user = models.ForeignKey(verbose_name=_('User'), to='users.User', related_name='orders', on_delete=models.CASCADE, blank=True, null=True)
+    store = models.ForeignKey(verbose_name=_('Store'), to='store.Store', related_name='orders', on_delete=models.SET_NULL, null=True)
     full_name = models.CharField(verbose_name=_('Full name'), max_length=128)
     phone_number = PhoneNumberField(verbose_name=_('Phone number'), region='UZ')
     email = models.EmailField(verbose_name=_('Email'), blank=True, null=True)
     delivery_type = models.CharField(verbose_name=_('Delivery type'), choices=DELIVERY_TYPES, max_length=1)
     payment_method = models.ForeignKey(
-        verbose_name=_('Payment method'), to='orders.PaymentType', related_name='orders', on_delete=models.SET_NULL,
-        null=True
+        verbose_name=_('Payment method'), to='orders.PaymentType', related_name='orders', on_delete=models.SET_NULL, null=True
     )
     final_price = models.DecimalField(verbose_name=_('Final price'), max_digits=24, decimal_places=2, default=0)
     created = models.DateTimeField(verbose_name=_('Created at'), auto_now_add=True)
@@ -36,14 +30,8 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(
-        verbose_name=_('Order'), to='orders.Order', related_name='items', on_delete=models.CASCADE
-    )
-    content_type = models.ForeignKey(
-        ContentType, on_delete=models.CASCADE, limit_choices_to={'model__in': ('carcover', 'polik', 'nakidka')}
-    )
-    object_id = models.PositiveIntegerField(verbose_name=_('Object id'))
-    product = GenericForeignKey('content_type', 'object_id')
+    order = models.ForeignKey(verbose_name=_('Order'), to='orders.Order', related_name='items', on_delete=models.CASCADE)
+    product = models.ForeignKey(verbose_name=_('Product'), to='store.Product', related_name='order_items', on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField(verbose_name=_('Quantity'))
     cost = models.PositiveIntegerField(verbose_name=_('Cost'))
 
