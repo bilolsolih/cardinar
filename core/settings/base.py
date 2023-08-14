@@ -36,6 +36,7 @@ CUSTOM_APPS = [
 ]
 
 DJANGO_APPS = [
+    "whitenoise.runserver_nostatic",
     "jazzmin",
     "django_filters",
     'modeltranslation',
@@ -61,7 +62,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'django.middleware.locale.LocaleMiddleware',
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -126,9 +131,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'backend/static/'
-STATIC_ROOT = BASE_DIR / 'static'
-STATICFILES_DIRS = [str(BASE_DIR) + "/assets", ]
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = "backend/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
