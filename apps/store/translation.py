@@ -1,28 +1,14 @@
 from modeltranslation.translator import TranslationOptions, translator
 
-from .models.product import CarCover, Polik, Nakidka
+from .models.product import Product
 from .models.product_parameters import BuildingMaterial
 
 
-class CarCoverTranslationOptions(TranslationOptions):
+class ProductTranslationOptions(TranslationOptions):
     fields = ('title', 'description')
 
 
-translator.register(CarCover, CarCoverTranslationOptions)
-
-
-class PolikTranslationOptions(TranslationOptions):
-    fields = ('title', 'description')
-
-
-translator.register(Polik, PolikTranslationOptions)
-
-
-class NakidkaTranslationOptions(TranslationOptions):
-    fields = ('title', 'description')
-
-
-translator.register(Nakidka, NakidkaTranslationOptions)
+translator.register(Product, ProductTranslationOptions)
 
 
 class BuildingMaterialTranslationOptions(TranslationOptions):

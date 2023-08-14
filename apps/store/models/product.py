@@ -31,7 +31,7 @@ class Product(TimeStampedModel):
     no_in_stock = models.PositiveIntegerField(verbose_name=_('Number in stock'), null=True, blank=True)
     purchase_count = models.PositiveIntegerField(verbose_name=_('Purchase count'), default=0)
     is_constructed = models.BooleanField(verbose_name=_('Is constructed?'), default=False)
-    car_brands = models.ManyToManyField(verbose_name=_('Car brands'), to='store.CarBrand', related_name='products', blank=True, null=True)
+    car_brands = models.ManyToManyField(verbose_name=_('Car brands'), to='store.CarBrand', related_name='products', blank=True)
     car_models = models.ManyToManyField(verbose_name=_('Car models'), to='store.CarModel', related_name='products')
     main_color = models.ForeignKey(verbose_name=_('Main color'), to='store.Color', related_name='mc_products', on_delete=models.SET_NULL, null=True)
     building_material = models.ForeignKey(
