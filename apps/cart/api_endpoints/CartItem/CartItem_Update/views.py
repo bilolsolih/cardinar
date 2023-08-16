@@ -1,8 +1,6 @@
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import UpdateAPIView
-from rest_framework.response import Response
-from rest_framework import status
 
 from apps.cart.models import CartItem
 from .serializers import CartItemUpdateSerializer
