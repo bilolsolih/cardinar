@@ -1,9 +1,8 @@
 import os
 from datetime import timedelta
-from pathlib import Path
-
 from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
+from pathlib import Path
 
 load_dotenv()
 
@@ -53,8 +52,8 @@ INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS + THIRD_PARTY_APPS
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -68,7 +67,11 @@ STORAGES = {
     },
 }
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8080',
+    'https://localhost:8080'
+]
 
 ROOT_URLCONF = "core.urls"
 
