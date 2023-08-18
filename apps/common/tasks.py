@@ -8,7 +8,7 @@ from django.core.files.base import ContentFile
 
 
 @shared_task
-def photo_compress(pk, app_label, model_name):
+def photo_compress(pk, app_label, model_name, side=1920):
     model = apps.get_model(app_label=app_label, model_name=model_name)
     instance = model.objects.filter(pk=pk).first()
     while not instance:
@@ -16,15 +16,15 @@ def photo_compress(pk, app_label, model_name):
         instance = model.objects.filter(pk=pk).first()
     photo_width = instance.photo.width
     photo_height = instance.photo.height
-    if photo_width > 1920 or photo_height > 1920:
+    if photo_width > side or photo_height > side:
         if photo_width >= photo_height:
-            width = 1920
+            width = side
             height = int(photo_height // (photo_width / width))
         else:
-            height = 1920
+            height = side
             width = int(photo_width // (photo_height / height))
         buffer = BytesIO()
-        quality = 80 if instance.status != 'Hit' else 100
+        quality = 80 if instance.status != 'Hit' or side > 1920 else 100
         resized_image = Image.open(instance.photo.path).resize(size=(width, height))
         if resized_image.mode != 'RGBA':
             resized_image = resized_image.convert('RGBA')

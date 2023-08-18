@@ -8,4 +8,4 @@ from .models import Banner
 @receiver(signal=post_save, sender=Banner)
 def banner_post_save(sender, instance, created, **kwargs):
     if created and instance.photo:
-        photo_compress(pk=instance.pk, app_label=instance._meta.app_label, model_name=instance._meta.model_name)
+        photo_compress(pk=instance.pk, app_label=instance._meta.app_label, model_name=instance._meta.model_name, side=1920)
