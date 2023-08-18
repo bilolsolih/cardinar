@@ -14,13 +14,22 @@ def photo_compress(pk, app_label, model_name):
     while not instance:
         sleep(1)
         instance = model.objects.filter(pk=pk).first()
-    buffer = BytesIO()
-    width = 1920
-    height = int(instance.photo.height // (instance.photo.width / width))
-    quality = 80 if instance.status != 'Hit' else 100
-    resized_image = Image.open(instance.photo.path).resize(size=(width, height)).convert('RGB')
-    resized_image.save(fp=buffer, format='WEBP', quality=quality, optimize=True)
-    file_name = f"compressed_{instance.photo.name.rsplit('/', 1)[-1]}.webp"
-    instance.photo.delete()
-    instance.photo.save(file_name, ContentFile(buffer.getvalue()))
-    instance.save()
+    photo_width = instance.photo.width
+    photo_height = instance.photo.height
+    if photo_width > 1920 or photo_height > 1920:
+        if photo_width >= photo_height:
+            width = 1920
+            height = int(photo_height // (photo_width / width))
+        else:
+            height = 1920
+            width = int(photo_width // (photo_height / height))
+        buffer = BytesIO()
+        quality = 80 if instance.status != 'Hit' else 100
+        resized_image = Image.open(instance.photo.path).resize(size=(width, height)).convert('RGB')
+        resized_image.save(fp=buffer, format='WEBP', quality=quality, optimize=True)
+        file_name = f"compressed_{instance.photo.name.rsplit('/', 1)[-1]}.webp"
+        instance.photo.delete()
+        instance.photo.save(file_name, ContentFile(buffer.getvalue()))
+        instance.save()
+    else:
+        pass

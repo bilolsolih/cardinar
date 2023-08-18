@@ -7,5 +7,5 @@ from apps.store.models.product import Product
 
 @receiver(post_save, sender=Product)
 def news_or_picture_saved(sender, instance, created, **kwargs):
-    if created and instance.photo and instance.photo.width > 1920:
+    if created and instance.photo:
         photo_compress(instance.pk, instance._meta.app_label, instance._meta.model_name)
