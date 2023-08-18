@@ -1,7 +1,7 @@
 from .base import *  # noqa
 
 ALLOWED_HOSTS = [
-    "lordstormrage.pythonanywhere.com",
+    "lordstormrage.pythonanywhere.com", "127.0.0.1"
 ]
 
 DATABASES = {
