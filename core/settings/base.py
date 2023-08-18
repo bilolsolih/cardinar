@@ -130,7 +130,6 @@ LANGUAGES = [
     ('en', _('English')),
     ('uz', _('Uzbek'))
 ]
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
