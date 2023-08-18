@@ -26,6 +26,8 @@ def photo_compress(pk, app_label, model_name):
         buffer = BytesIO()
         quality = 80 if instance.status != 'Hit' else 100
         resized_image = Image.open(instance.photo.path).resize(size=(width, height)).convert('RGB')
+        if resized_image.mode != 'RGBA':
+            resized_image = resized_image.convert('RGBA')
         resized_image.save(fp=buffer, format='PNG', quality=quality, optimize=True)
         file_name = f"compressed_{instance.photo.name.rsplit('/', 1)[-1]}.png"
         instance.photo.delete()
