@@ -25,15 +25,16 @@ class CarBrand(models.Model):
 
 
 class CarModel(models.Model):
-    brand = models.ForeignKey(verbose_name=_('Car brands'), to='store.CarBrand', related_name='cars', on_delete=models.CASCADE, null=True)
+    brand = models.ForeignKey(verbose_name=_('Car brands'), to='store.CarBrand', related_name='cars', on_delete=models.CASCADE)
     title = models.CharField(verbose_name=_('Title'), max_length=128)
 
     class Meta:
         verbose_name = _('Car model')
         verbose_name_plural = _('Car models')
+        # unique_together = ['brand', 'title']
 
     def __str__(self):
-        return self.title
+        return f"{self.brand.title} - {self.title}"
 
 
 class Color(models.Model):
