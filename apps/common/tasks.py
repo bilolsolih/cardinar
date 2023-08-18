@@ -25,7 +25,7 @@ def photo_compress(pk, app_label, model_name):
             width = int(photo_width // (photo_height / height))
         buffer = BytesIO()
         quality = 80 if instance.status != 'Hit' else 100
-        resized_image = Image.open(instance.photo.path).resize(size=(width, height)).convert('RGB')
+        resized_image = Image.open(instance.photo.path).resize(size=(width, height))
         if resized_image.mode != 'RGBA':
             resized_image = resized_image.convert('RGBA')
         resized_image.save(fp=buffer, format='PNG', quality=quality, optimize=True)
