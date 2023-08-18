@@ -6,8 +6,10 @@ from .serializers import CarModelListSerializer
 
 class CarModelListAPIView(ListAPIView):
     serializer_class = CarModelListSerializer
-    queryset = CarModel.objects.all()
     lookup_field = "brand_id"
+
+    def get_queryset(self):
+        return CarModel.objects.filter(brand__pk=self.kwargs.get('brand_id', None))
 
 
 __all__ = ['CarModelListAPIView']

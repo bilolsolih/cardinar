@@ -6,4 +6,4 @@ from apps.store.models.product_parameters import CarModel
 class CarModelListSerializer(ModelSerializer):
     class Meta:
         model = CarModel
-        fields = ['id', 'title']
+        fields = ['id', 'title', 'brand']

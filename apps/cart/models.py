@@ -29,7 +29,9 @@ class CartItem(models.Model):
     product = models.ForeignKey(verbose_name=_('Product'), to='store.Product', related_name='cart_items', on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(verbose_name=_('Quantity'), default=0)
     cost = models.DecimalField(verbose_name=_('Cost'), max_digits=24, decimal_places=2, default=0)
-    car_model = models.ForeignKey(verbose_name=_('Car model'), to='store.CarModel', related_name='cart_items', on_delete=models.CASCADE)
+    car_model = models.ForeignKey(
+        verbose_name=_('Car model'), to='store.CarModel', related_name='cart_items', on_delete=models.CASCADE, blank=True, null=True
+    )
 
     class Meta:
         verbose_name = _('Cart item')
