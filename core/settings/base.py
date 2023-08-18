@@ -127,7 +127,6 @@ USE_I18N = True
 LANGUAGE_CODE = "ru"
 LANGUAGES = [
     ('ru', _('Russian')),
-    ('en', _('English')),
     ('uz', _('Uzbek'))
 ]
 USE_TZ = True

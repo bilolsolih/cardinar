@@ -1,4 +1,5 @@
 from django.contrib import admin
+from modeltranslation.admin import TranslationAdmin
 
 from .models.product import Category, Product, Photo
 from .models.product_parameters import Color, CarModel, CarBrand, BuildingMaterial
@@ -15,14 +16,14 @@ delete_selected.short_description = 'Delete selected objects'
 
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(TranslationAdmin):
     actions = [delete_selected]
 
 
-admin.site.register(BuildingMaterial)
+admin.site.register(BuildingMaterial, TranslationAdmin)
 admin.site.register(CarBrand)
 admin.site.register(CarModel)
-admin.site.register(Category)
+admin.site.register(Category, TranslationAdmin)
 admin.site.register(Color)
 admin.site.register(Photo)
 admin.site.register(Store)
