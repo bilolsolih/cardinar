@@ -25,7 +25,7 @@ class CarBrand(models.Model):
 
 
 class CarModel(models.Model):
-    brand = models.ForeignKey(verbose_name=_('Car brands'), to='store.CarBrand', related_name='cars', on_delete=models.CASCADE)
+    brand = models.ForeignKey(verbose_name=_('Car brands'), to='store.CarBrand', related_name='cars', on_delete=models.CASCADE, null=True)
     title = models.CharField(verbose_name=_('Title'), max_length=128)
 
     class Meta:
