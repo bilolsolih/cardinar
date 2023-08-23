@@ -22,17 +22,15 @@ class CartItemCreateSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, data):
-        with transaction.atomic():
-            user = self.context['request'].user
-            if user.is_authenticated:
-                item = CartItem.objects.create(
-                    cart=user.cart, product=data['product'], quantity=data['quantity'], car_model=data['car_model'],
-                    cost=(data['product'].price * data['quantity'])
-                )
-            else:
-                item = CartItem.objects.create(
-                    device_id=data['device_id'], product=data['product'], quantity=data['quantity'], car_model=data['car_model'],
-                    cost=(data['product'].price * data['quantity'])
-                )
-            item.clean()
-            return item
+        user = self.context['request'].user
+        if user.is_authenticated:
+            item = CartItem.objects.create(
+                cart=user.cart, product=data['product'], quantity=data['quantity'], car_model=data['car_model'],
+                cost=(data['product'].price * data['quantity'])
+            )
+        else:
+            item = CartItem.objects.create(
+                device_id=data['device_id'], product=data['product'], quantity=data['quantity'], car_model=data['car_model'],
+                cost=(data['product'].price * data['quantity'])
+            )
+        return item
