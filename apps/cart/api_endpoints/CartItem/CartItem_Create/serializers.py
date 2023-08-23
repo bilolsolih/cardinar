@@ -25,4 +25,5 @@ class CartItemCreateSerializer(serializers.ModelSerializer):
                 device_id=data['device_id'], product=data['product'], quantity=data['quantity'], car_model=data['car_model'],
                 cost=(data['product'].price * data['quantity'])
             )
+        item.clean()
         return item
