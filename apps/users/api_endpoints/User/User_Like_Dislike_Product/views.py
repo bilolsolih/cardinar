@@ -3,31 +3,25 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from apps.users.models import UserProductLikeManager
-from .serializers import UserLikeDislikeSerializer
+from apps.store.models.product import Product
 
 
 class UserLikeProductAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
+    def get(self, request, product_id, *args, **kwargs):
         user = request.user
-        data = UserLikeDislikeSerializer(data=request.data)
-        data.is_valid(raise_exception=True)
-        is_liked_already = UserProductLikeManager.objects.filter(
-            user=user, content_type=data.validated_data['content_type'], object_id=data.validated_data['object_id']
-        ).first().exists()
-
-        if is_liked_already:
-            UserProductLikeManager.objects.filter(
-                user=user, content_type=data.validated_data['content_type'], object_id=data.validated_data['object_id']
-            ).first().delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        else:
-            UserProductLikeManager.objects.create(
-                user=user, content_type=data.validated_data['content_type'], object_id=data.validated_data['object_id']
-            )
-            return Response(status=status.HTTP_201_CREATED)
+        try:
+            product = Product.objects.get(active=True, pk=product_id)
+            if product not in user.liked_products.all():
+                user.liked_products.add(product)
+                message = 'Liked'
+            else:
+                user.liked_products.remove(product)
+                message = 'Disliked'
+        except Product.DoesNotExist:
+            message = 'No such product'
+        return Response({'detail': message}, status=status.HTTP_200_OK)
 
 
 __all__ = ['UserLikeProductAPIView']

@@ -1,7 +1,6 @@
 from datetime import timedelta
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils import timezone
@@ -33,6 +32,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(verbose_name=_('Last name'), max_length=128)
     email = models.EmailField(verbose_name=_('Email'), unique=True)
 
+    liked_products = models.ManyToManyField(to='store.Product', related_name='liked_users', blank=True)
+
     is_active = models.BooleanField(verbose_name=_("Active"), default=True)
     is_staff = models.BooleanField(verbose_name=_("Staff status"), default=False)
 
@@ -42,7 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     EMAIL_FIELD = 'email'
 
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone_number', 'email']
+    REQUIRED_FIELDS = []
 
     objects = UserManager()
 
@@ -81,14 +82,3 @@ class UserToken(TimeStampedModel):
 
     def __str__(self):
         return f"Token for {self.user.username}"
-
-
-class UserProductLikeManager(models.Model):
-    user = models.ForeignKey(verbose_name=_('User'), to='users.User', related_name='liked_products', on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_type = models.ForeignKey(
-        ContentType, on_delete=models.CASCADE, limit_choices_to={'model__in': ('carcover', 'nakidka', 'polik')}
-    )
-    product = GenericForeignKey('content_type', 'object_id')
-
-# TODO: user password change - edit

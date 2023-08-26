@@ -15,9 +15,14 @@ def delete_selected(modeladmin, request, queryset):
 delete_selected.short_description = 'Delete selected objects'
 
 
+class PhotoInProduct(admin.TabularInline):
+    model = Photo
+
+
 @admin.register(Product)
 class ProductAdmin(TranslationAdmin):
     actions = [delete_selected]
+    inlines = [PhotoInProduct]
 
 
 admin.site.register(BuildingMaterial, TranslationAdmin)
@@ -25,5 +30,4 @@ admin.site.register(CarBrand)
 admin.site.register(CarModel)
 admin.site.register(Category, TranslationAdmin)
 admin.site.register(Color)
-admin.site.register(Photo)
 admin.site.register(Store)

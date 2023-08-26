@@ -31,7 +31,7 @@ class CarModel(models.Model):
     class Meta:
         verbose_name = _('Car model')
         verbose_name_plural = _('Car models')
-        # unique_together = ['brand', 'title']
+        unique_together = ['brand', 'title']
 
     def __str__(self):
         return f"{self.brand.title} - {self.title}"
