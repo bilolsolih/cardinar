@@ -3,3 +3,10 @@ PART_TYPE = (
     ('n', 'Nakidka'),
     ('p', 'Polik')
 )
+SUBCATEGORY = (
+    ('c', 'Central part'),
+    ('b', 'Back part'),
+    ('r', 'Rear part'),
+    ('s', 'Stitch'),
+    ('k', 'Kant')
+)
