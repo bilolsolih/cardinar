@@ -14,6 +14,7 @@ class ProductRetrieveSerializer(ModelSerializer):
             'type',
             'status',
             'photo',
+            'photos',
             'description',
             'price',
             'car_brands',
