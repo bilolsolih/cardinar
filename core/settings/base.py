@@ -72,7 +72,10 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
-    'https://localhost:8080'
+    'https://localhost:8080',
+    'https://cardinar.uz',
+    'http://cardinar.uz'
+
 ]
 
 ROOT_URLCONF = "core.urls"
