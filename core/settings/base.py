@@ -127,12 +127,13 @@ LOCALE_PATHS = [
 TIME_ZONE = "Asia/Tashkent"
 
 USE_I18N = True
+USE_TZ = True
+
 LANGUAGE_CODE = "ru"
 LANGUAGES = [
     ('ru', _('Russian')),
     ('uz', _('Uzbek'))
 ]
-USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/

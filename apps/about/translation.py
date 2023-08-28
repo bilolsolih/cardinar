@@ -7,11 +7,9 @@ class BannerTranslationOptions(TranslationOptions):
     fields = ('text',)
 
 
-translator.register(Banner, BannerTranslationOptions)
-
-
 class AddressTranslationOptions(TranslationOptions):
     fields = ('region', 'district', 'street')
 
 
+translator.register(Banner, BannerTranslationOptions)
 translator.register(Address, AddressTranslationOptions)
