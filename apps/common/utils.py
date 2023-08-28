@@ -63,3 +63,7 @@ def get_models(model=None, app=None):
 
     populate_independent(independent_models)
     # now I have models separated into dependent and independent lists
+# For each model, the list of models on which the model depends must be identified
+# if the model has some other models on which it depends, each of those models must be checked for dependency
+# and so the loop must go on.
+# The first thing which crossed my mind is using recursive functions. This could be the first time I successfully implement one
