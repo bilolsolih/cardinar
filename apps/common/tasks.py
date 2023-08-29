@@ -14,6 +14,7 @@ def photo_compress(pk, app_label, model_name, side=1920):
     while not instance:
         sleep(1)
         instance = model.objects.filter(pk=pk).first()
+    quality = 80 if instance.status != 'Hit' or side > 1920 else 100
     photo_width = instance.photo.width
     photo_height = instance.photo.height
     if photo_width > side or photo_height > side:
@@ -24,12 +25,9 @@ def photo_compress(pk, app_label, model_name, side=1920):
             height = side
             width = int(photo_width // (photo_height / height))
         buffer = BytesIO()
-        quality = 80 if instance.status != 'Hit' or side > 1920 else 100
         resized_image = Image.open(instance.photo.path).resize(size=(width, height))
-        if resized_image.mode != 'RGBA':
-            resized_image = resized_image.convert('RGBA')
         resized_image.save(fp=buffer, format='PNG', quality=quality, optimize=True)
-        file_name = f"compressed_{instance.photo.name.rsplit('/', 1)[-1]}.png"
+        file_name = f"compressed_{instance.photo.name.rsplit('/', 1)[-1]}"
         instance.photo.delete()
         instance.photo.save(file_name, ContentFile(buffer.getvalue()))
         instance.save()

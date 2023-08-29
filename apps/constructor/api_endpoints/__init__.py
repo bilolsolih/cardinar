@@ -1,1 +1,1 @@
-from .Product import *  # noqa
+from .ConstructedProduct import *  # noqa

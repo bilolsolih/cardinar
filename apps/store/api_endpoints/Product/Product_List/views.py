@@ -19,7 +19,7 @@ class ProductFilterSet(FilterSet):
 
 class ProductListAPIView(ListAPIView):
     serializer_class = ProductListSerializer
-    queryset = Product.objects.filter(active=True, is_constructed=False)
+    queryset = Product.objects.filter(active=True)
     filter_backends = [DjangoFilterBackend]
     filterset_class = ProductFilterSet
 
