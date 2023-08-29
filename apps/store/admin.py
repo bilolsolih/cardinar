@@ -8,7 +8,7 @@ from .models.store import Store
 
 def delete_selected(modeladmin, request, queryset):
     for obj in queryset:
-        for photo in obj.photos:
+        for photo in obj.photos.all():
             photo.delete()
         obj.delete()
     return None
