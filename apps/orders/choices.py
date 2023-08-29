@@ -8,3 +8,7 @@ ORDER_STATUS = (
     ('d', _('Delivered')),
     ('p', _('Pending'))
 )
+PAYMENT_STATUS = (
+    ('wp', _('Waiting for payment')),
+    ('pd', _('Paid'))
+)

@@ -6,4 +6,4 @@ from apps.constructor.models import CustomProductModel
 class CustomProductModelListSerializer(ModelSerializer):
     class Meta:
         model = CustomProductModel
-        fields = ['category', 'title', 'photo']
+        fields = ['id', 'category', 'title', 'photo']
