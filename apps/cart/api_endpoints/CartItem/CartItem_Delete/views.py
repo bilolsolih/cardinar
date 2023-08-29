@@ -35,14 +35,13 @@ class CartItemDeleteAllAPIView(APIView):
         ]
     )
     def delete(self, request, *args, **kwargs):
-        query_set = self.get_queryset(request)
+        query_set = self.get_queryset()
         query_set.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @staticmethod
-    def get_queryset(request):
-        user = request.user if request.user.is_authenticated else None
-        device_id = request.query_params.get('device_id', None)
+    def get_queryset(self):
+        user = self.request.user if self.request.user.is_authenticated else None
+        device_id = self.request.query_params.get('device_id', None)
         if user and device_id:
             raise ValueError('device_id is needed only for guest users.')
         if user:

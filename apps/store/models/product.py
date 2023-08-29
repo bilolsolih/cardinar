@@ -20,7 +20,7 @@ class Category(models.Model):
 
 class Product(TimeStampedModel):
     category = models.ForeignKey(
-        verbose_name=_('Category'), to='store.Category', related_name='products', on_delete=models.SET_NULL, null=True
+        verbose_name=_('Category'), to='store.Category', related_name='products', on_delete=models.PROTECT
     )
     title = models.CharField(verbose_name=_('Title'), max_length=256)
     type = models.CharField(verbose_name=_('Type'), choices=PRODUCT_TYPE, max_length=7, default='Basic')

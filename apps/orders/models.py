@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
-from .choices import DELIVERY_TYPES, ORDER_STATUS
+from .choices import DELIVERY_TYPES, ORDER_STATUS, PAYMENT_STATUS
 
 
 class Order(models.Model):
@@ -13,13 +13,13 @@ class Order(models.Model):
     phone_number = PhoneNumberField(verbose_name=_('Phone number'), region='UZ')
     email = models.EmailField(verbose_name=_('Email'), blank=True, null=True)
     delivery_type = models.CharField(verbose_name=_('Delivery type'), choices=DELIVERY_TYPES, max_length=1)
-    payment_method = models.ForeignKey(
-        verbose_name=_('Payment method'), to='orders.PaymentType', related_name='orders', on_delete=models.SET_NULL, null=True
-    )
+    payment_method = models.ForeignKey(verbose_name=_('Payment method'), to='orders.PaymentType', related_name='orders', on_delete=models.SET_NULL, null=True)
     final_price = models.DecimalField(verbose_name=_('Final price'), max_digits=24, decimal_places=2, default=0)
-    created = models.DateTimeField(verbose_name=_('Created at'), auto_now_add=True)
 
     status = models.CharField(verbose_name=_('Status'), max_length=1, choices=ORDER_STATUS, default='p')
+    payment_status = models.CharField(_('Payment status'), max_length=2, choices=PAYMENT_STATUS, default='wp')
+
+    created = models.DateTimeField(verbose_name=_('Created at'), auto_now_add=True)
 
     class Meta:
         verbose_name = _('Order')

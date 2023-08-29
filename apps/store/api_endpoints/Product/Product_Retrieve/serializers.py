@@ -14,20 +14,12 @@ class ProductRetrieveSerializer(ModelSerializer):
             'type',
             'status',
             'photo',
+            'photos',
             'description',
             'price',
             'car_brands',
             'car_models',
             'building_material',
-            'created',
-            'central_part_color',
-            'central_part_material',
-            'rear_color',
-            'rear_material',
-            'side_color',
-            'side_material',
-            'stitch_color',
-            'has_kant',
-            'kant_color'
+            'created'
         ]
         depth = 1

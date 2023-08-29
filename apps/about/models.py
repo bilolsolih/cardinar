@@ -1,7 +1,8 @@
+import os
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
-import os
 
 from apps.common.models import TimeStampedModel
 
@@ -70,6 +71,3 @@ class SocialMedia(models.Model):
 
     def __str__(self):
         return f"{self.social_media} - {self.link}"
-
-# TODO: Gde Kupit, Footerda, hal qilish kerak
-# TODO: barcha kerakli modellarni translation admin bilan register qilib chiqish kerak

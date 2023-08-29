@@ -14,7 +14,7 @@ class ProductFilterSet(FilterSet):
 
     class Meta:
         model = Product
-        fields = ['category', 'main_color']
+        fields = ['category', 'main_color', 'status']
 
 
 class ProductListAPIView(ListAPIView):

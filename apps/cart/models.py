@@ -1,4 +1,5 @@
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.aggregates import Sum
 from django.utils.translation import gettext_lazy as _
@@ -36,6 +37,14 @@ class CartItem(models.Model):
     class Meta:
         verbose_name = _('Cart item')
         verbose_name_plural = _('Cart items')
+
+    def clean(self):
+        if self.device_id:
+            if CartItem.objects.filter(device_id=self.device_id, product=self.product).exists():
+                raise ValidationError({'product':'Item already in the cart.'})
+        if self.cart:
+            if CartItem.objects.filter(cart=self.cart, product=self.product).exists():
+                raise ValidationError({'product': 'Item already in the cart.'})
 
     def __str__(self):
         return f"{self.quantity} {self.product.title}(s) for {self.car_model}"

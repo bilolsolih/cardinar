@@ -72,7 +72,10 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
-    'https://localhost:8080'
+    'https://localhost:8080',
+    'https://cardinar.uz',
+    'http://cardinar.uz'
+
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -124,12 +127,13 @@ LOCALE_PATHS = [
 TIME_ZONE = "Asia/Tashkent"
 
 USE_I18N = True
+USE_TZ = True
+
 LANGUAGE_CODE = "ru"
 LANGUAGES = [
     ('ru', _('Russian')),
     ('uz', _('Uzbek'))
 ]
-USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
