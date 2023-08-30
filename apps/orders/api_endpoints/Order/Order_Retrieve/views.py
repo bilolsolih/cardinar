@@ -8,9 +8,10 @@ from .serializers import OrderRetrieveSerializer
 class OrderRetrieveAPIView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = OrderRetrieveSerializer
+    lookup_field = 'pk'
 
-    def get_object(self):
-        return Order.objects.filter(user=self.request.user, pk=self.kwargs.get('pk', None)).first()
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
 
 
 __all__ = ['OrderRetrieveAPIView']
