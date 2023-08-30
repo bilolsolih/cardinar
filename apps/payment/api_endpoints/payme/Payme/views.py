@@ -35,7 +35,7 @@ class PaymeAPIView(APIView):
     @db_transaction.non_atomic_requests
     def dispatch(self, request, *args, **kwargs):
         response = super().dispatch(request, *args, **kwargs)
-        logging.info(request.data)
+        logging.info(request)
         PaymentMerchantRequestLog.objects.create(
             header=self.request.headers,
             body=self.request.data,
