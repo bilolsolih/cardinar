@@ -3,9 +3,11 @@ from rest_framework import status
 from rest_framework.generics import CreateAPIView
 from rest_framework.parsers import FormParser, JSONParser
 from rest_framework.response import Response
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 from .custom_permission import IsNotRegisteredAlready
-from apps.cart.models import Cart
+from apps.cart.models import Cart, CartItem
 from .serializers import UserRegisterSerializer
 
 
@@ -13,6 +15,14 @@ class UserRegisterAPIView(CreateAPIView):
     serializer_class = UserRegisterSerializer
     permission_classes = [IsNotRegisteredAlready]
     parser_classes = [JSONParser, FormParser]
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter('device_id', openapi.IN_QUERY, description='Device id', type=openapi.TYPE_STRING),
+        ]
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         cd = dict(serializer.validated_data)
@@ -31,17 +41,23 @@ class UserRegisterAPIView(CreateAPIView):
                 user = User.objects.get(username=username, is_active=False)
                 for key, value in defaults.items():
                     setattr(user, key, value)
-                user.set_password(cd['password1'])
                 user.is_active = True
-                user.save()
-                Cart.objects.create(user=user)
-                return Response(status=status.HTTP_201_CREATED)
             except User.DoesNotExist:
                 user = User.objects.create(username=username, **defaults)
-                user.set_password(cd['password1'])
-                user.save()
-                Cart.objects.create(user=user)
-                return Response(status=status.HTTP_201_CREATED)
+
+            user.set_password(cd['password1'])
+            user.save()
+            cart = Cart.objects.create(user=user)
+            device_id = self.request.query_params.get('device_id', None)
+            if device_id:
+                query_set = CartItem.objects.filter(device_id=device_id)
+                if query_set:
+                    for query in query_set:
+                        query.cart = cart
+                        del query.device_id
+                        query.save()
+
+            return Response(status=status.HTTP_201_CREATED)
 
 
 __all__ = ['UserRegisterAPIView']
