@@ -88,10 +88,10 @@ class PaymeProvider:
         transaction, _ = Transaction.objects.get_or_create(
             transaction_id=self.params["id"],
             order=self.order,
-            defaults={"amount": self.params["amount"], "status": TransactionStatus.WAITING},
+            defaults={"amount": self.params["amount"] / 100, "status": TransactionStatus.WAITING},
         )
         self.validate_order()
-        self.validate_amount(self.params["amount"])
+        self.validate_amount(self.params["amount"] / 100)
         return self.error, self.error_message, self.code
 
     def check_perform_transaction(self):
@@ -99,7 +99,7 @@ class PaymeProvider:
             return True, self.ORDER_NOT_FOND_MESSAGE, self.ORDER_NOT_FOUND
 
         self.validate_order()
-        self.validate_amount(self.params["amount"])
+        self.validate_amount(self.params["amount"] / 100)
 
         return self.error, self.error_message, self.code
 
