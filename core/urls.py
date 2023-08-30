@@ -23,5 +23,8 @@ urlpatterns = i18n_patterns(
 )
 
 urlpatterns += swagger_patterns
-
+payment_patterns = [
+    path("api/v1/payments/", include('apps.payment.urls', namespace='payments'))
+]
+urlpatterns += payment_patterns
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
