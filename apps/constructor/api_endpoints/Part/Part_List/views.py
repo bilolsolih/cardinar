@@ -12,7 +12,7 @@ class PartFilterSet(FilterSet):
 
 
 class PartListAPIView(ListAPIView):
-    serializer_class = [PartListSerializer]
+    serializer_class = PartListSerializer
     queryset = Part.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_class = PartFilterSet
