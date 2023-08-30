@@ -94,7 +94,7 @@ class PaymeAPIView(APIView):
 
         return dict(
             result=dict(
-                create_time=int(transaction.created_at.timestamp() * 1000),
+                create_time=int(transaction.created.timestamp() * 1000),
                 transaction=transaction.transaction_id,
                 state=PaymeProvider.CREATE_TRANSACTION,
             )
@@ -145,7 +145,7 @@ class PaymeAPIView(APIView):
 
         return dict(
             result=dict(
-                create_time=int(transaction.created_at.timestamp() * 1000),
+                create_time=int(transaction.created.timestamp() * 1000),
                 perform_time=perform_time,
                 cancel_time=cancel_time,
                 transaction=str(transaction.transaction_id),
@@ -166,7 +166,7 @@ class PaymeAPIView(APIView):
         cancel_time = int(transaction.cancel_time.timestamp() * 1000) if transaction.cancel_time else 0
         return dict(
             result=dict(
-                create_time=int(transaction.created_at.timestamp() * 1000),
+                create_time=int(transaction.created.timestamp() * 1000),
                 perform_time=perform_time,
                 cancel_time=cancel_time,
                 transaction=str(transaction.transaction_id),
