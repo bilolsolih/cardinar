@@ -1,9 +1,6 @@
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import CreateAPIView
-import requests
-import os
-import time
 
 from apps.cart.models import CartItem
 from apps.orders.models import OrderItem
@@ -27,24 +24,8 @@ class OrderCreateAPIView(CreateAPIView):
 
         for item in items:
             OrderItem.objects.create(
-                order=order, content_type=item.content_type, object_id=item.object_id, quantity=item.quantity, cost=item.cost
+                order=order, product=item.product, quantity=item.quantity, cost=item.cost
             )
-        requests.post(
-            url='https://test.paycom.uz/create-transaction/',
-            data={
-                "jsonrpc": "2.0",
-                "id": 58882,
-                "method": "CreateTransaction",
-                "params": {
-                    "account": {
-                        "order_id": "1"
-                    },
-                    "amount": 500,
-                    "id": "64ec8047bd4e15d6824257df",
-                    "time": int(time.time() * 1000)
-                }
-            }
-        )
 
 
 __all__ = ['OrderCreateAPIView']
