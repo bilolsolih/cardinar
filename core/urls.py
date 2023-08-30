@@ -22,6 +22,7 @@ urlpatterns = i18n_patterns(
 )
 
 urlpatterns += swagger_patterns
+
 payment_patterns = [
     path("api/v1/payments/", include('apps.payment.urls', namespace='payments'))
 ]
