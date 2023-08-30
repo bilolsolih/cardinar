@@ -1,6 +1,7 @@
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from django.db import transaction as db_transaction
 
@@ -9,16 +10,15 @@ from .utils import PaymeMethods
 
 from apps.payment.api_endpoints.payme.auth import AUTH_ERROR, authentication
 from apps.payment.api_endpoints.payme.provider import PaymeProvider
-from apps.payment.models import Provider, Transaction, TransactionStatus
-from apps.payment.views import PaymentView
+from apps.payment.models import Transaction, TransactionStatus
+from apps.payment.models import PaymentMerchantRequestLog
 
 
-class PaymeAPIView(PaymentView):
+class PaymeAPIView(APIView):
     permission_classes = [AllowAny]
     http_method_names = ["post"]
     authentication_classes = []  # type: ignore
     TYPE = ""
-    PROVIDER = Provider.PAYME  # type: ignore
 
     def __init__(self):
         self.METHODS = {
@@ -30,6 +30,19 @@ class PaymeAPIView(PaymentView):
         }
         self.params = None
         super(PaymeAPIView, self).__init__()
+
+    @db_transaction.non_atomic_requests
+    def dispatch(self, request, *args, **kwargs):
+        response = super().dispatch(request, *args, **kwargs)
+        PaymentMerchantRequestLog.objects.create(
+            header=self.request.headers,
+            body=self.request.data,
+            method=self.request.method,
+            type=self.TYPE,
+            response=response.data,
+            response_status_code=response.status_code
+        )
+        return response
 
     @swagger_auto_schema(request_body=PaymeSerializer)
     def post(self, request, *args, **kwargs):
@@ -92,7 +105,7 @@ class PaymeAPIView(PaymentView):
         if error and (code == PaymeProvider.ORDER_NOT_FOUND or code == PaymeProvider.TRANSACTION_NOT_FOUND):
             return dict(error=dict(code=code, message=error_message))
 
-        transaction = Transaction.objects.get(transaction_id=self.params["id"], order__provider=Provider.PAYME)
+        transaction = Transaction.objects.get(transaction_id=self.params["id"])
 
         # when order found and transaction created but error occurred
         if error:
@@ -117,7 +130,7 @@ class PaymeAPIView(PaymentView):
         if error:
             return dict(error=dict(code=code, message=error_message))
 
-        transaction = Transaction.objects.get(transaction_id=self.params["id"], order__provider=Provider.PAYME)
+        transaction = Transaction.objects.get(transaction_id=self.params["id"])
         perform_time = int(transaction.paid_at.timestamp() * 1000) if transaction.paid_at else 0
         cancel_time = int(transaction.cancel_time.timestamp() * 1000) if transaction.cancel_time else 0
         reason = None
@@ -144,7 +157,7 @@ class PaymeAPIView(PaymentView):
         error, error_message, code = PaymeProvider(self.params).cancel_transaction()
         if error:
             return dict(error=dict(code=code, message=error_message))
-        transaction = Transaction.objects.get(transaction_id=self.params["id"], order__provider=Provider.PAYME)
+        transaction = Transaction.objects.get(transaction_id=self.params["id"])
         if transaction.status != TransactionStatus.CANCELED:
             transaction.cancel()
 

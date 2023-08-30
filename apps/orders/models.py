@@ -1,20 +1,26 @@
+import base64
+
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
+from apps.common.models import TimeStampedModel
 from .choices import DELIVERY_TYPES, ORDER_STATUS, PAYMENT_STATUS
 
 
 class Order(models.Model):
-    user = models.ForeignKey(verbose_name=_('User'), to='users.User', related_name='orders', on_delete=models.CASCADE, blank=True, null=True)
-    store = models.ForeignKey(verbose_name=_('Store'), to='store.Store', related_name='orders', on_delete=models.SET_NULL, null=True)
-    full_name = models.CharField(verbose_name=_('Full name'), max_length=128)
-    phone_number = PhoneNumberField(verbose_name=_('Phone number'), region='UZ')
-    email = models.EmailField(verbose_name=_('Email'), blank=True, null=True)
-    delivery_type = models.CharField(verbose_name=_('Delivery type'), choices=DELIVERY_TYPES, max_length=1)
-    payment_method = models.ForeignKey(verbose_name=_('Payment method'), to='orders.PaymentType', related_name='orders', on_delete=models.SET_NULL, null=True)
-    final_price = models.DecimalField(verbose_name=_('Final price'), max_digits=24, decimal_places=2, default=0)
+    user = models.ForeignKey('users.User', related_name='orders', on_delete=models.CASCADE, blank=True, null=True, verbose_name=_('User'))
+    store = models.ForeignKey('store.Store', related_name='orders', on_delete=models.SET_NULL, null=True, verbose_name=_('Store'))
+    full_name = models.CharField(_('Full name'), max_length=128)
+    phone_number = PhoneNumberField(_('Phone number'), region='UZ')
+    email = models.EmailField(_('Email'), blank=True, null=True)
+    delivery_type = models.CharField(_('Delivery type'), choices=DELIVERY_TYPES, max_length=1)
+    final_price = models.DecimalField(_('Final price'), max_digits=24, decimal_places=2, default=0)
+
+    is_paid = models.BooleanField(default=False, verbose_name=_("Is Paid"))
+    is_canceled = models.BooleanField(default=False, verbose_name=_("Is Canceled"))
 
     status = models.CharField(verbose_name=_('Status'), max_length=1, choices=ORDER_STATUS, default='p')
     payment_status = models.CharField(_('Payment status'), max_length=2, choices=PAYMENT_STATUS, default='wp')
@@ -24,6 +30,14 @@ class Order(models.Model):
     class Meta:
         verbose_name = _('Order')
         verbose_name_plural = _('Orders')
+
+    def get_payment_url(self):
+        merchant_id = settings.PROVIDERS["payme"]["merchant_id"]
+        params = f"m={merchant_id};ac.order_id={self.id};a={self.final_price};c=https://cardinar.uz"
+        encode_params = base64.b64encode(params.encode("utf-8"))
+        encode_params = str(encode_params, "utf-8")
+        payment_url = f"{settings.PROVIDERS['payme']['callback_url']}/{encode_params}"
+        return payment_url
 
     def __str__(self):
         return f"Order {self.id} by {self.user.username}"

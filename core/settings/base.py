@@ -2,8 +2,6 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-import django.contrib.staticfiles.storage
-import whitenoise.storage
 from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
 
@@ -35,6 +33,7 @@ CUSTOM_APPS = [
     "apps.cart",
     "apps.orders",
     "apps.constructor",
+    "apps.payment",
 ]
 
 DJANGO_APPS = [
@@ -230,5 +229,15 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_HOST_USER = os.getenv('SMTP_USERNAME')
 EMAIL_HOST_PASSWORD = os.getenv('SMTP_PASSWORD')
+
+
+PROVIDERS = {
+    "payme": {
+        "merchant_id": os.getenv('PAYME_MERCHANT_ID', None),
+        "secret_key": os.getenv("PAYME_SECRET_KEY", None),
+        "test_secret_key": os.getenv("PAYME_TEST_SECRET_KEY", None),
+    }
+}
+
 
 STAGE = "develop"

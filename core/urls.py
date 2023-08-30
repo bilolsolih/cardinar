@@ -19,6 +19,7 @@ urlpatterns = i18n_patterns(
     path('api/v1/constructor/', include('apps.constructor.urls', namespace='constructor')),
     path("api/v1/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/v1/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/v1/payments/", include('apps.payment.urls', namespace='payments'))
 )
 
 urlpatterns += swagger_patterns

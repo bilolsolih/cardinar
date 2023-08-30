@@ -1,15 +1,9 @@
 from django.utils import timezone
-
-from apps.course.models import UserCourse, UserVideoLesson
+from apps.orders.models import Order
 from apps.payment.models import (
-    Order,
-    OrderType,
-    PaymentType,
-    Provider,
     Transaction,
     TransactionStatus,
 )
-from apps.webinar.models import UserWebinar
 
 
 class PaymeProvider:
@@ -58,7 +52,7 @@ class PaymeProvider:
 
     def perform_transaction(self):
         try:
-            transaction = Transaction.objects.get(transaction_id=self.params["id"], order__provider=Provider.PAYME)
+            transaction = Transaction.objects.get(transaction_id=self.params["id"])
         except Transaction.DoesNotExist:
             return True, self.TRANSACTION_NOT_FOUND_MESSAGE, self.TRANSACTION_NOT_FOUND
         if transaction.status == TransactionStatus.FAILED:
@@ -75,7 +69,7 @@ class PaymeProvider:
 
     def check_transaction(self):
         try:
-            Transaction.objects.get(transaction_id=self.params["id"], order__provider=Provider.PAYME)
+            Transaction.objects.get(transaction_id=self.params["id"])
         except Transaction.DoesNotExist:
             return True, self.TRANSACTION_NOT_FOUND_MESSAGE, self.TRANSACTION_NOT_FOUND
 
@@ -87,7 +81,7 @@ class PaymeProvider:
 
         _time = timezone.now() - timezone.timedelta(seconds=15)
         check_transaction = Transaction.objects.filter(
-            order=self.order, order__provider=Provider.PAYME, status=TransactionStatus.WAITING, created_at__gte=_time
+            order=self.order, status=TransactionStatus.WAITING, created_at__gte=_time
         ).order_by("-id")
 
         if check_transaction and check_transaction.first().transaction_id != self.params["id"]:
@@ -124,30 +118,6 @@ class PaymeProvider:
             self.error = True
             self.error_message = self.ORDER_ALREADY_PAID_MESSAGE
             self.code = self.ORDER_ALREADY_PAID
-        if self.order.payment_type != PaymentType.ONE_TIME:
-            self.error = True
-            self.error_message = self.ORDER_INVALID_PAYMENT_TYPE_MESSAGE
-            self.code = self.ORDER_INVALID_PAYMENT_TYPE
-        self.validate_order_type()
-
-    def validate_order_type(self):
-        if self.order.type == OrderType.COURSE:
-            if UserCourse.objects.filter(course=self.order.course, user=self.order.user, order=self.order).exists():
-                self.error = True
-                self.error_message = self.ORDER_ALREADY_PAID_MESSAGE
-                self.code = self.ORDER_ALREADY_PAID
-        elif self.order.type == OrderType.WEBINAR:
-            if UserWebinar.objects.filter(webinar=self.order.webinar, user=self.order.user, order=self.order).exists():
-                self.error = True
-                self.error_message = self.ORDER_ALREADY_PAID_MESSAGE
-                self.code = self.ORDER_ALREADY_PAID
-        elif self.order.type == OrderType.VIDEO_LESSON:
-            if UserVideoLesson.objects.filter(
-                video_lesson=self.order.video_lesson, user=self.order.user, order=self.order
-            ).exists():
-                self.error = True
-                self.error_message = self.ORDER_ALREADY_PAID_MESSAGE
-                self.code = self.ORDER_ALREADY_PAID
 
     def validate_amount(self, amount):
         if amount != self.order.transaction_amount:
@@ -157,7 +127,7 @@ class PaymeProvider:
 
     def cancel_transaction(self):
         try:
-            transaction = Transaction.objects.get(transaction_id=self.params["id"], order__provider=Provider.PAYME)
+            transaction = Transaction.objects.get(transaction_id=self.params["id"])
         except Transaction.DoesNotExist:
             return True, self.TRANSACTION_NOT_FOUND_MESSAGE, self.TRANSACTION_NOT_FOUND
 
