@@ -85,7 +85,6 @@ class PaymeAPIView(APIView):
 
         if not transaction:
             return dict(error=dict(code=code, message=error_message))
-        logging.info('Transaction exists')
         # when order found and transaction created but error occurred
         if error:
             transaction.status = TransactionStatus.FAILED

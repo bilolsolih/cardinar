@@ -33,7 +33,7 @@ class Order(models.Model):
 
     def get_payment_url(self):
         merchant_id = settings.PROVIDERS["payme"]["merchant_id"]
-        params = f"m={merchant_id};ac.order_id={self.id};a={self.final_price};c=https://cardinar.uz"
+        params = f"m={merchant_id};ac.order_id={self.id};a={self.final_price * 100};c=https://cardinar.uz"
         encode_params = base64.b64encode(params.encode("utf-8"))
         encode_params = str(encode_params, "utf-8")
         payment_url = f"{settings.PROVIDERS['payme']['callback_url']}/{encode_params}"

@@ -1,6 +1,8 @@
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework import status
 from rest_framework.generics import CreateAPIView
+from rest_framework.response import Response
 
 from apps.cart.models import CartItem
 from apps.orders.models import OrderItem
@@ -16,6 +18,13 @@ class OrderCreateAPIView(CreateAPIView):
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        payment_url = self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response({'message': serializer.data, 'payment_url': payment_url}, status=status.HTTP_201_CREATED, headers=headers)
+
     def perform_create(self, serializer):
         user = self.request.user if self.request.user.is_authenticated else None
         order = serializer.save(user=user)
@@ -26,6 +35,7 @@ class OrderCreateAPIView(CreateAPIView):
             OrderItem.objects.create(
                 order=order, product=item.product, quantity=item.quantity, cost=item.cost
             )
+        return order.get_payment_url()
 
 
 __all__ = ['OrderCreateAPIView']
