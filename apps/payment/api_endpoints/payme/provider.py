@@ -80,7 +80,7 @@ class PaymeProvider:
             return True, self.ORDER_NOT_FOND_MESSAGE, self.ORDER_NOT_FOUND
 
         time = timezone.now() - timezone.timedelta(seconds=15)
-        check_transaction = Transaction.objects.filter(order=self.order, status=TransactionStatus.WAITING, created_at__gte=time).order_by("-id")
+        check_transaction = Transaction.objects.filter(order=self.order, status=TransactionStatus.WAITING, created__gte=time).order_by("-id")
 
         if check_transaction and check_transaction.first().transaction_id != self.params["id"]:
             return True, self.TRANSACTION_NOT_FOUND_MESSAGE, self.TRANSACTION_NOT_FOUND
@@ -118,7 +118,7 @@ class PaymeProvider:
             self.code = self.ORDER_ALREADY_PAID
 
     def validate_amount(self, amount):
-        if amount != self.order.transaction_amount:
+        if amount != self.order.final_price:
             self.error = True
             self.error_message = self.INVALID_AMOUNT_MESSAGE
             self.code = self.INVALID_AMOUNT
