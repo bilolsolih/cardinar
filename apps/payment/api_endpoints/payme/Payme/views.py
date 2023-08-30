@@ -12,6 +12,7 @@ from apps.payment.api_endpoints.payme.auth import AUTH_ERROR, authentication
 from apps.payment.api_endpoints.payme.provider import PaymeProvider
 from apps.payment.models import Transaction, TransactionStatus
 from apps.payment.models import PaymentMerchantRequestLog
+import logging
 
 
 class PaymeAPIView(APIView):
@@ -34,6 +35,7 @@ class PaymeAPIView(APIView):
     @db_transaction.non_atomic_requests
     def dispatch(self, request, *args, **kwargs):
         response = super().dispatch(request, *args, **kwargs)
+        logging.info(request)
         PaymentMerchantRequestLog.objects.create(
             header=self.request.headers,
             body=self.request.data,

@@ -230,7 +230,6 @@ EMAIL_USE_SSL = False
 EMAIL_HOST_USER = os.getenv('SMTP_USERNAME')
 EMAIL_HOST_PASSWORD = os.getenv('SMTP_PASSWORD')
 
-
 PROVIDERS = {
     "payme": {
         "merchant_id": os.getenv('PAYME_MERCHANT_ID', None),
@@ -239,5 +238,20 @@ PROVIDERS = {
     }
 }
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',  # Set the desired log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'django.log'),  # Set the path to the log file
+        },
+    },
+    'root': {
+        'handlers': ['file'],
+        'level': 'DEBUG',  # Set the minimum log level to capture
+    },
+}
 
 STAGE = "develop"
