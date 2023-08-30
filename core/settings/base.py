@@ -253,5 +253,5 @@ LOGGING = {
         'level': 'DEBUG',  # Set the minimum log level to capture
     },
 }
-
+APPEND_SLASH = False
 STAGE = "develop"
