@@ -58,9 +58,9 @@ class PaymeProvider:
         if transaction.status == TransactionStatus.FAILED:
             return True, self.UNABLE_TO_PERFORM_OPERATION, self.UNABLE_TO_PERFORM_OPERATION_MESSAGE
         if (
-            Transaction.objects.filter(order=transaction.order, status=TransactionStatus.PAID)
-            .exclude(transaction_id=transaction.transaction_id)
-            .exists()
+                Transaction.objects.filter(order=transaction.order, status=TransactionStatus.PAID)
+                        .exclude(transaction_id=transaction.transaction_id)
+                        .exists()
         ):
             self.order = transaction.order
             self.validate_order()
@@ -79,10 +79,8 @@ class PaymeProvider:
         if not self.order:
             return True, self.ORDER_NOT_FOND_MESSAGE, self.ORDER_NOT_FOUND
 
-        _time = timezone.now() - timezone.timedelta(seconds=15)
-        check_transaction = Transaction.objects.filter(
-            order=self.order, status=TransactionStatus.WAITING, created_at__gte=_time
-        ).order_by("-id")
+        time = timezone.now() - timezone.timedelta(seconds=15)
+        check_transaction = Transaction.objects.filter(order=self.order, status=TransactionStatus.WAITING, created_at__gte=time).order_by("-id")
 
         if check_transaction and check_transaction.first().transaction_id != self.params["id"]:
             return True, self.TRANSACTION_NOT_FOUND_MESSAGE, self.TRANSACTION_NOT_FOUND
@@ -90,10 +88,10 @@ class PaymeProvider:
         transaction, _ = Transaction.objects.get_or_create(
             transaction_id=self.params["id"],
             order=self.order,
-            defaults={"amount": self.params["amount"] / 100, "status": TransactionStatus.WAITING},
+            defaults={"amount": self.params["amount"], "status": TransactionStatus.WAITING},
         )
         self.validate_order()
-        self.validate_amount(self.params["amount"] / 100)
+        self.validate_amount(self.params["amount"])
         return self.error, self.error_message, self.code
 
     def check_perform_transaction(self):
@@ -101,7 +99,7 @@ class PaymeProvider:
             return True, self.ORDER_NOT_FOND_MESSAGE, self.ORDER_NOT_FOUND
 
         self.validate_order()
-        self.validate_amount(self.params["amount"] / 100)
+        self.validate_amount(self.params["amount"])
 
         return self.error, self.error_message, self.code
 

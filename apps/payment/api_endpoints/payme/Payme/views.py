@@ -35,7 +35,6 @@ class PaymeAPIView(APIView):
     @db_transaction.non_atomic_requests
     def dispatch(self, request, *args, **kwargs):
         response = super().dispatch(request, *args, **kwargs)
-        logging.info(request)
         PaymentMerchantRequestLog.objects.create(
             header=self.request.headers,
             body=self.request.data,
@@ -86,7 +85,7 @@ class PaymeAPIView(APIView):
 
         if not transaction:
             return dict(error=dict(code=code, message=error_message))
-
+        logging.info('Transaction exists')
         # when order found and transaction created but error occurred
         if error:
             transaction.status = TransactionStatus.FAILED

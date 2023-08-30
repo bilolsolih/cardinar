@@ -243,14 +243,14 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'file': {
-            'level': 'DEBUG',  # Set the desired log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+            'level': 'INFO',  # Set the desired log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, 'django.log'),  # Set the path to the log file
         },
     },
     'root': {
         'handlers': ['file'],
-        'level': 'DEBUG',  # Set the minimum log level to capture
+        'level': 'INFO',  # Set the minimum log level to capture
     },
 }
 APPEND_SLASH = False
