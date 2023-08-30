@@ -6,7 +6,7 @@ from apps.orders.models import Order
 class OrderCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ['full_name', 'phone_number', 'email', 'store', 'delivery_type', 'payment_method']
+        fields = ['full_name', 'phone_number', 'email', 'store', 'delivery_type']
 
     def validate(self, attrs):
         request = self.context['request']
