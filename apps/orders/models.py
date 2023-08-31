@@ -34,7 +34,7 @@ class Order(models.Model):
 
     @property
     def final_price(self):
-        return self.items.aggregate(final_price=models.Sum('cost'))
+        return self.items.aggregate(final_price=models.Sum('cost'))['final_price']
 
     def get_payment_url(self):
         merchant_id = settings.PROVIDERS["payme"]["merchant_id"]
