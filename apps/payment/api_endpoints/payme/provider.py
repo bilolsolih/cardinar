@@ -41,7 +41,11 @@ class PaymeProvider:
         "en": "Unable to perform operation",
     }
 
-    INVALID_AMOUNT_MESSAGE = {"uz": "Miqdori notog'ri", "ru": "Неверная сумма", "en": "Invalid amount"}
+    INVALID_AMOUNT_MESSAGE = {
+        "uz": "Miqdori notog'ri",
+        "ru": "Неверная сумма",
+        "en": "Invalid amount"
+    }
 
     def __init__(self, params):
         self.params = params
