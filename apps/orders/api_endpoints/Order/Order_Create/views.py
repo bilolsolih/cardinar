@@ -3,7 +3,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
-
+from django.db.models import Sum
 from apps.cart.models import CartItem
 from apps.orders.models import OrderItem
 from .serializers import OrderCreateSerializer
@@ -35,6 +35,7 @@ class OrderCreateAPIView(CreateAPIView):
             OrderItem.objects.create(
                 order=order, product=item.product, quantity=item.quantity, cost=item.cost
             )
+
         return order.get_payment_url()
 
 

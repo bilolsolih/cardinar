@@ -19,7 +19,6 @@ class Order(models.Model):
     phone_number = PhoneNumberField(_('Phone number'), region='UZ')
     email = models.EmailField(_('Email'), blank=True, null=True)
     delivery_type = models.CharField(_('Delivery type'), choices=DELIVERY_TYPES, max_length=1)
-    final_price = models.DecimalField(_('Final price'), max_digits=24, decimal_places=2, default=0)
 
     is_paid = models.BooleanField(default=False, verbose_name=_("Is Paid"))
     is_canceled = models.BooleanField(default=False, verbose_name=_("Is Canceled"))
@@ -32,6 +31,10 @@ class Order(models.Model):
     class Meta:
         verbose_name = _('Order')
         verbose_name_plural = _('Orders')
+
+    @property
+    def final_price(self):
+        return self.items.aggregate(final_price=models.Sum('cost'))
 
     def get_payment_url(self):
         merchant_id = settings.PROVIDERS["payme"]["merchant_id"]
