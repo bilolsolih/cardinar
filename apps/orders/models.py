@@ -11,8 +11,10 @@ from .choices import DELIVERY_TYPES, ORDER_STATUS, PAYMENT_STATUS
 
 
 class Order(models.Model):
-    user = models.ForeignKey('users.User', related_name='orders', on_delete=models.CASCADE, blank=True, null=True, verbose_name=_('User'))
-    store = models.ForeignKey('store.Store', related_name='orders', on_delete=models.SET_NULL, null=True, verbose_name=_('Store'))
+    user = models.ForeignKey('users.User', related_name='orders', on_delete=models.CASCADE, blank=True, null=True,
+                             verbose_name=_('User'))
+    store = models.ForeignKey('store.Store', related_name='orders', on_delete=models.SET_NULL, null=True,
+                              verbose_name=_('Store'))
     full_name = models.CharField(_('Full name'), max_length=128)
     phone_number = PhoneNumberField(_('Phone number'), region='UZ')
     email = models.EmailField(_('Email'), blank=True, null=True)
@@ -40,12 +42,17 @@ class Order(models.Model):
         return payment_url
 
     def __str__(self):
-        return f"Order {self.id} by {self.user.username}"
+        if self.user:
+            return f"Order {self.id} by {self.user.username}"
+        else:
+            return f'Order {self.id}'
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(verbose_name=_('Order'), to='orders.Order', related_name='items', on_delete=models.CASCADE)
-    product = models.ForeignKey(verbose_name=_('Product'), to='store.Product', related_name='order_items', on_delete=models.PROTECT)
+    order = models.ForeignKey(verbose_name=_('Order'), to='orders.Order', related_name='items',
+                              on_delete=models.CASCADE)
+    product = models.ForeignKey(verbose_name=_('Product'), to='store.Product', related_name='order_items',
+                                on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField(verbose_name=_('Quantity'))
     cost = models.PositiveIntegerField(verbose_name=_('Cost'))
 
