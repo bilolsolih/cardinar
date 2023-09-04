@@ -57,7 +57,7 @@ class OrderItem(models.Model):
     product = models.ForeignKey(verbose_name=_('Product'), to='store.Product', related_name='order_items',
                                 on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField(verbose_name=_('Quantity'))
-    cost = models.PositiveIntegerField(verbose_name=_('Cost'))
+    cost = models.PositiveIntegerField(verbose_name=_('Cost'), blank=True, null=True)
 
     @property
     def get_product_title(self):

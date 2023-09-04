@@ -10,8 +10,8 @@ class OrderItemInOrder(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'status', 'phone_number']
-    list_display_links = ['id', 'status', 'phone_number']
+    list_display = ['id', 'status', 'phone_number', 'final_price']
+    list_display_links = ['id', 'status', 'phone_number', 'final_price']
     inlines = [OrderItemInOrder]
 
 
