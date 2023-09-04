@@ -133,7 +133,9 @@ class PaymeProvider:
         except Transaction.DoesNotExist:
             return True, self.TRANSACTION_NOT_FOUND_MESSAGE, self.TRANSACTION_NOT_FOUND
 
-        if transaction.status != TransactionStatus.WAITING:
+        if transaction.status == TransactionStatus.CANCELED:
+            pass
+        elif transaction.status != TransactionStatus.WAITING:
             return True, self.UNABLE_TO_PERFORM_OPERATION, self.UNABLE_TO_PERFORM_OPERATION_MESSAGE
 
         return self.error, self.error_message, self.code
