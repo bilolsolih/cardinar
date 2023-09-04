@@ -37,10 +37,8 @@ def authentication(request):
         return False
 
     userid, password = auth_parts[0], auth_parts[2]
-    logging.info(auth_parts)
 
-    # return userid == "Paycom" and (
-    #     password == settings.PROVIDERS["payme"]["secret_key"]
-    #     or password == settings.PROVIDERS["payme"]["test_secret_key"]
-    # )
-    return True
+    return userid == "Paycom" and (
+        password == settings.PROVIDERS["payme"]["secret_key"]
+        or password == settings.PROVIDERS["payme"]["test_secret_key"]
+    )
