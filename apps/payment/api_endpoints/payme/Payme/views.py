@@ -47,10 +47,10 @@ class PaymeAPIView(APIView):
 
     @swagger_auto_schema(request_body=PaymeSerializer)
     def post(self, request, *args, **kwargs):
-        # check = authentication(request)
+        check = authentication(request)
 
-        # if check is False or not check:
-        #     return Response(AUTH_ERROR)
+        if check is False or not check:
+            return Response(AUTH_ERROR)
 
         serializer = PaymeSerializer(data=request.data, many=False)
         serializer.is_valid(raise_exception=True)
