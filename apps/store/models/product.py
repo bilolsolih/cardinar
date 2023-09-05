@@ -19,9 +19,7 @@ class Category(models.Model):
 
 
 class Product(TimeStampedModel):
-    category = models.ForeignKey(
-        verbose_name=_('Category'), to='store.Category', related_name='products', on_delete=models.PROTECT
-    )
+    category = models.ForeignKey(verbose_name=_('Category'), to='store.Category', related_name='products', on_delete=models.PROTECT)
     title = models.CharField(verbose_name=_('Title'), max_length=256)
     type = models.CharField(verbose_name=_('Type'), choices=PRODUCT_TYPE, max_length=7, default='Basic')
     status = models.CharField(verbose_name=_('Status'), choices=PRODUCT_STATUS, max_length=4, blank=True, null=True)
@@ -33,9 +31,7 @@ class Product(TimeStampedModel):
     car_brands = models.ManyToManyField(verbose_name=_('Car brands'), to='store.CarBrand', related_name='products', blank=True)
     car_models = models.ManyToManyField(verbose_name=_('Car models'), to='store.CarModel', related_name='products')
     main_color = models.ForeignKey(verbose_name=_('Main color'), to='store.Color', related_name='mc_products', on_delete=models.SET_NULL, null=True)
-    building_material = models.ForeignKey(
-        verbose_name=_('Building material'), to='store.BuildingMaterial', related_name='bm_products', on_delete=models.SET_NULL, null=True
-    )
+    building_material = models.ForeignKey(verbose_name=_('Building material'), to='store.BuildingMaterial', related_name='bm_products', on_delete=models.SET_NULL, null=True)
 
     active = models.BooleanField(verbose_name=_('Is active'), default=True)
 

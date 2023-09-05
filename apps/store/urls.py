@@ -7,6 +7,7 @@ app_name = 'store'
 urlpatterns = [
     path('products/list/', views.ProductListAPIView.as_view(), name='product_list'),
     path('products/retrieve/<int:pk>/', views.ProductRetrieveAPIView.as_view(), name='product_retrieve'),
+    path('products/create/', views.ProductCreateAPIView.as_view(), name='product_create'),
 
     path('colors/list/', views.ColorListAPIView.as_view(), name='color_list'),
     path('categories/list/', views.CategoryListAPIView.as_view(), name='category_list'),

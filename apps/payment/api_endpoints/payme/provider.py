@@ -135,6 +135,8 @@ class PaymeProvider:
 
         if transaction.status == TransactionStatus.CANCELED:
             pass
+        elif transaction.status == TransactionStatus.PAID:
+            pass
         elif transaction.status != TransactionStatus.WAITING:
             return True, self.UNABLE_TO_PERFORM_OPERATION, self.UNABLE_TO_PERFORM_OPERATION_MESSAGE
 
