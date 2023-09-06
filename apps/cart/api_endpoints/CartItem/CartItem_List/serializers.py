@@ -7,7 +7,7 @@ from apps.store.models.product import Product
 class ProductInCartItem(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'title', 'photo']
+        fields = ['id', 'title', 'photo', 'category']
 
 
 class CartItemListSerializer(serializers.ModelSerializer):
