@@ -11,4 +11,4 @@ class OrderListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'created', 'quantity', 'final_price', 'status', 'payment_status']
+        fields = ['id', 'get_title', 'created', 'quantity', 'final_price', 'status', 'payment_status']

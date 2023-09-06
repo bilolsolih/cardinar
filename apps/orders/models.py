@@ -33,6 +33,10 @@ class Order(models.Model):
         verbose_name_plural = _('Orders')
 
     @property
+    def get_title(self):
+        return ', '.join([item.product.title for item in self.items])
+
+    @property
     def final_price(self):
         return self.items.aggregate(final_price=models.Sum('cost'))['final_price']
 
@@ -52,10 +56,8 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(verbose_name=_('Order'), to='orders.Order', related_name='items',
-                              on_delete=models.CASCADE)
-    product = models.ForeignKey(verbose_name=_('Product'), to='store.Product', related_name='order_items',
-                                on_delete=models.PROTECT)
+    order = models.ForeignKey(verbose_name=_('Order'), to='orders.Order', related_name='items', on_delete=models.CASCADE)
+    product = models.ForeignKey(verbose_name=_('Product'), to='store.Product', related_name='order_items', on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField(verbose_name=_('Quantity'))
     cost = models.PositiveIntegerField(verbose_name=_('Cost'), blank=True, null=True)
 
