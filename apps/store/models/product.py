@@ -39,6 +39,10 @@ class Product(TimeStampedModel):
         verbose_name = _('Product')
         verbose_name_plural = _('Product')
 
+    @property
+    def category_title(self):
+        return self.category.title
+
     def __str__(self):
         return f"{self.title} - {self.category.title}"
 
