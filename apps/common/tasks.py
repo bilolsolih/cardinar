@@ -8,7 +8,7 @@ from django.core.files.base import ContentFile
 
 
 @shared_task
-def photo_compress(pk, app_label, model_name, side=612):
+def photo_compress(pk, app_label, model_name, side=1024):
     model = apps.get_model(app_label=app_label, model_name=model_name)
     instance = model.objects.filter(pk=pk).first()
     while not instance:
