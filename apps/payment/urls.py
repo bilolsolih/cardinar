@@ -5,5 +5,5 @@ from .api_endpoints import payme
 app_name = "payments"
 
 urlpatterns = [
-    path("verify/", payme.PaymeAPIView.as_view(), name="payme"),
+    path("payments/verify/", payme.PaymeAPIView.as_view(), name="payme"),
 ]

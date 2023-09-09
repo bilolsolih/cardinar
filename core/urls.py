@@ -6,6 +6,7 @@ from django.urls import include, path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .schema import swagger_patterns
+from apps.payment.urls import urlpatterns as payment_urls
 
 urlpatterns = i18n_patterns(
     path("admin/", admin.site.urls),
@@ -23,8 +24,5 @@ urlpatterns = i18n_patterns(
 
 urlpatterns += swagger_patterns
 
-payment_patterns = [
-    path("payments/", include('apps.payment.urls', namespace='payments'))
-]
-urlpatterns += payment_patterns
+urlpatterns += payment_urls
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
