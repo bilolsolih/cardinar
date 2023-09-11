@@ -1,7 +1,7 @@
 from .base import *  # noqa
 from os import getenv
 
-ALLOWED_HOSTS = ['bilolsolih.pythonanywhere.com', 'api.cardinar.uz']
+ALLOWED_HOSTS = ['bilolsolih.pythonanywhere.com', 'api.cardinar.uz', '127.0.0.1']
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",

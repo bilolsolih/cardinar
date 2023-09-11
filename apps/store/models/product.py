@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.common.models import TimeStampedModel
 from apps.store.choices import PRODUCT_STATUS, PRODUCT_TYPE
+from ckeditor.fields import RichTextField
 
 
 class Category(models.Model):
@@ -24,7 +25,7 @@ class Product(TimeStampedModel):
     type = models.CharField(verbose_name=_('Type'), choices=PRODUCT_TYPE, max_length=7, default='Basic')
     status = models.CharField(verbose_name=_('Status'), choices=PRODUCT_STATUS, max_length=4, blank=True, null=True)
     photo = models.ImageField(verbose_name=_('Photo'), upload_to='images/store/products/%Y/%m/%d')
-    description = models.TextField(verbose_name=_('Description'), blank=True, null=True)
+    description = RichTextField(verbose_name=_('Description'), blank=True, null=True)
     price = models.PositiveIntegerField(verbose_name=_('Price'))
     no_in_stock = models.PositiveIntegerField(verbose_name=_('Number in stock'), null=True, blank=True)
     purchase_count = models.PositiveIntegerField(verbose_name=_('Purchase count'), default=0)
