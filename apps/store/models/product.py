@@ -48,11 +48,6 @@ class Product(TimeStampedModel):
         return f"{self.title} - {self.category.title}"
 
 
-# TODO: sotib olinganida purchase_count increment qilinishi kerak
-# TODO: chexol uchun modell chexla qo'shish - model orqali
-# TODO: similar products ni aniqlash uchun algo va API
-
-
 class Photo(TimeStampedModel):
     product = models.ForeignKey(verbose_name=_('Product'), to='store.Product', related_name='photos', on_delete=models.PROTECT)
     title = models.CharField(verbose_name=_('Title'), max_length=256)

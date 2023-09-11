@@ -23,6 +23,9 @@ class PhotoInProduct(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(TranslationAdmin):
+    list_display = ['id', 'title', 'category', 'price', 'status', 'no_in_stock', 'active']
+    list_display_links = ['id', 'title', 'category']
+    list_editable = ['price', 'status', 'no_in_stock', 'active']
     actions = [delete_selected]
     inlines = [PhotoInProduct]
 
