@@ -1,11 +1,11 @@
 import os
 
+from ckeditor.fields import RichTextField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from apps.common.models import TimeStampedModel
 from apps.store.choices import PRODUCT_STATUS, PRODUCT_TYPE
-from ckeditor.fields import RichTextField
 
 
 class Category(models.Model):
@@ -65,4 +65,16 @@ class Photo(TimeStampedModel):
     def __str__(self):
         return self.title
 
-# TODO: kerakli modellarning barchasi adminga qo'shilganini tekshirish
+
+class PremiumPhoto(models.Model):
+    product = models.ForeignKey('store.Product', related_name='images', on_delete=models.CASCADE)
+    photo = models.ImageField(_('Photo'), upload_to='images/store/products/premium_photos/%Y/%m/')
+    ordinal_number = models.PositiveIntegerField(_('Ordinal number'))
+
+    class Meta:
+        verbose_name = _('Premium photo')
+        verbose_name_plural = _('Premium photos')
+        ordering = ['ordinal_number']
+
+    def __str__(self):
+        return f'Premium photo for {self.product}'

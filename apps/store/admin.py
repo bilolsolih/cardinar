@@ -1,7 +1,7 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
 
-from .models.product import Category, Product, Photo
+from .models.product import Category, Product, Photo, PremiumPhoto
 from .models.product_parameters import Color, CarModel, CarBrand, BuildingMaterial
 from .models.store import Store
 
@@ -21,13 +21,17 @@ class PhotoInProduct(admin.TabularInline):
     model = Photo
 
 
+class PremiumPhotoInProduct(admin.TabularInline):
+    model = PremiumPhoto
+
+
 @admin.register(Product)
 class ProductAdmin(TranslationAdmin):
     list_display = ['id', 'title', 'category', 'price', 'status', 'no_in_stock', 'active']
     list_display_links = ['id', 'title', 'category']
     list_editable = ['price', 'status', 'no_in_stock', 'active']
     actions = [delete_selected]
-    inlines = [PhotoInProduct]
+    inlines = [PhotoInProduct, PremiumPhotoInProduct]
 
 
 admin.site.register(BuildingMaterial, TranslationAdmin)
