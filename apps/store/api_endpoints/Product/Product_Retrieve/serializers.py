@@ -20,6 +20,7 @@ class ProductRetrieveSerializer(ModelSerializer):
             'car_brands',
             'car_models',
             'building_material',
+            'images',
             'created'
         ]
         depth = 1
