@@ -33,7 +33,7 @@ class OrderCreateAPIView(CreateAPIView):
 
         for item in items:
             OrderItem.objects.create(
-                order=order, product=item.product, quantity=item.quantity, cost=item.cost
+                order=order, product=item.product, quantity=item.quantity, cost=item.cost, car_model=item.car_model
             )
 
         return order.get_payment_url()

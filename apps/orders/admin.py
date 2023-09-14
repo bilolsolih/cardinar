@@ -6,6 +6,7 @@ from .models import Order, OrderItem, PaymentType
 
 class OrderItemInOrder(admin.TabularInline):
     model = OrderItem
+    list_display = ['id', 'product', '']
 
 
 @admin.register(Order)

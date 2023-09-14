@@ -60,6 +60,7 @@ class OrderItem(models.Model):
     product = models.ForeignKey(verbose_name=_('Product'), to='store.Product', related_name='order_items', on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField(verbose_name=_('Quantity'))
     cost = models.PositiveIntegerField(verbose_name=_('Cost'), blank=True, null=True)
+    car_model = models.ForeignKey(verbose_name=_('Car model'), to='store.CarModel', related_name='order_items', on_delete=models.CASCADE)
 
     @property
     def get_product_title(self):
