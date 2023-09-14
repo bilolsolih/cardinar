@@ -26,8 +26,6 @@ class CartItemUpdateAPIView(UpdateAPIView):
     def get_object(self):
         user = self.request.user
         device_id = self.request.query_params.get('device_id', None)
-        if user.is_authenticated and device_id:
-            raise ValueError('device_id is needed only for guest users.')
         if user.is_authenticated:
             return CartItem.objects.filter(cart__user=user, pk=self.kwargs.get('pk', None)).first()
         else:
