@@ -1,0 +1,576 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-09-14 13:00+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+#: apps/about/admin.py:14
+msgid "Delete selected Banners"
+msgstr ""
+
+#: apps/about/models.py:11 apps/store/models/product.py:27
+#: apps/store/models/product.py:54 apps/store/models/product.py:71
+msgid "Photo"
+msgstr ""
+
+#: apps/about/models.py:12
+msgid "Text"
+msgstr ""
+
+#: apps/about/models.py:15
+msgid "Banner"
+msgstr ""
+
+#: apps/about/models.py:16
+msgid "Banners"
+msgstr ""
+
+#: apps/about/models.py:28 apps/about/models.py:31 apps/inquiries/models.py:10
+#: apps/orders/models.py:19 apps/store/models/store.py:8
+#: apps/users/models.py:30
+msgid "Phone number"
+msgstr ""
+
+#: apps/about/models.py:32
+msgid "Phone numbers"
+msgstr ""
+
+#: apps/about/models.py:39 apps/about/models.py:42 apps/inquiries/models.py:11
+#: apps/orders/models.py:20 apps/users/models.py:33
+msgid "Email"
+msgstr ""
+
+#: apps/about/models.py:43
+msgid "Emails"
+msgstr ""
+
+#: apps/about/models.py:50 apps/store/models/store.py:10
+msgid "Region"
+msgstr ""
+
+#: apps/about/models.py:51
+msgid "District"
+msgstr ""
+
+#: apps/about/models.py:52
+msgid "Street"
+msgstr ""
+
+#: apps/about/models.py:53
+msgid "House number"
+msgstr ""
+
+#: apps/about/models.py:56 apps/store/models/store.py:12
+msgid "Address"
+msgstr ""
+
+#: apps/about/models.py:57
+msgid "Addresses"
+msgstr ""
+
+#: apps/about/models.py:64 apps/about/models.py:68
+msgid "Social Media"
+msgstr ""
+
+#: apps/about/models.py:65
+msgid "Link"
+msgstr ""
+
+#: apps/about/models.py:69
+msgid "Social Medias"
+msgstr ""
+
+#: apps/cart/models.py:10 apps/orders/models.py:15 apps/users/models.py:51
+#: apps/users/models.py:72
+msgid "User"
+msgstr ""
+
+#: apps/cart/models.py:18 apps/cart/models.py:27
+msgid "Cart"
+msgstr ""
+
+#: apps/cart/models.py:19
+msgid "Carts"
+msgstr ""
+
+#: apps/cart/models.py:29
+msgid "Device id"
+msgstr ""
+
+#: apps/cart/models.py:30 apps/orders/models.py:60
+#: apps/store/models/product.py:40 apps/store/models/product.py:41
+#: apps/store/models/product.py:52
+msgid "Product"
+msgstr ""
+
+#: apps/cart/models.py:31 apps/orders/models.py:61
+msgid "Quantity"
+msgstr ""
+
+#: apps/cart/models.py:32 apps/orders/models.py:62
+msgid "Cost"
+msgstr ""
+
+#: apps/cart/models.py:34 apps/store/models/product_parameters.py:32
+msgid "Car model"
+msgstr ""
+
+#: apps/cart/models.py:37
+msgid "Cart item"
+msgstr ""
+
+#: apps/cart/models.py:38
+msgid "Cart items"
+msgstr ""
+
+#: apps/common/models.py:6 apps/orders/models.py:29
+msgid "Created at"
+msgstr ""
+
+#: apps/common/models.py:7
+msgid "Updated at"
+msgstr ""
+
+#: apps/constructor/models.py:10 apps/constructor/models.py:25
+#: apps/constructor/models.py:46
+msgid "Product model"
+msgstr ""
+
+#: apps/constructor/models.py:11
+msgid "Default photo"
+msgstr ""
+
+#: apps/constructor/models.py:14
+msgid "Custom product model"
+msgstr ""
+
+#: apps/constructor/models.py:15
+msgid "Custom product models"
+msgstr ""
+
+#: apps/constructor/models.py:27
+msgid "Part name"
+msgstr ""
+
+#: apps/constructor/models.py:29 apps/store/models/product_parameters.py:9
+msgid "Material"
+msgstr ""
+
+#: apps/constructor/models.py:32
+msgid "Color of the part"
+msgstr ""
+
+#: apps/constructor/models.py:34
+msgid "Photo of the part"
+msgstr ""
+
+#: apps/constructor/models.py:37
+msgid "Part"
+msgstr ""
+
+#: apps/constructor/models.py:38
+msgid "Parts"
+msgstr ""
+
+#: apps/constructor/models.py:47
+msgid "Central part"
+msgstr ""
+
+#: apps/constructor/models.py:48
+msgid "Back part"
+msgstr ""
+
+#: apps/constructor/models.py:49
+msgid "Rear part"
+msgstr ""
+
+#: apps/constructor/models.py:50
+msgid "Stitch"
+msgstr ""
+
+#: apps/constructor/models.py:51
+msgid "Kant"
+msgstr ""
+
+#: apps/constructor/models.py:53
+msgid "Remove the logo?"
+msgstr ""
+
+#: apps/constructor/models.py:54
+msgid "Remove the podpyatnik"
+msgstr ""
+
+#: apps/constructor/models.py:66
+msgid "Custom product"
+msgstr ""
+
+#: apps/constructor/models.py:67
+msgid "Custom products"
+msgstr ""
+
+#: apps/inquiries/models.py:9 apps/orders/models.py:18 apps/users/models.py:59
+msgid "Full name"
+msgstr ""
+
+#: apps/inquiries/models.py:12
+msgid "Comment"
+msgstr ""
+
+#: apps/inquiries/models.py:14
+msgid "On product"
+msgstr ""
+
+#: apps/inquiries/models.py:16
+msgid "Active?"
+msgstr ""
+
+#: apps/inquiries/models.py:19
+msgid "Inquiry"
+msgstr ""
+
+#: apps/inquiries/models.py:20
+msgid "Inquiries"
+msgstr ""
+
+#: apps/orders/choices.py:4
+msgid "Self-picked"
+msgstr ""
+
+#: apps/orders/choices.py:5
+msgid "Delivery"
+msgstr ""
+
+#: apps/orders/choices.py:8
+msgid "Delivered"
+msgstr ""
+
+#: apps/orders/choices.py:9
+msgid "Pending"
+msgstr ""
+
+#: apps/orders/choices.py:12
+msgid "Waiting for payment"
+msgstr ""
+
+#: apps/orders/choices.py:13 apps/payment/models.py:10
+msgid "Paid"
+msgstr ""
+
+#: apps/orders/models.py:17 apps/store/models/store.py:16
+msgid "Store"
+msgstr ""
+
+#: apps/orders/models.py:21
+msgid "Delivery type"
+msgstr ""
+
+#: apps/orders/models.py:23
+msgid "Is Paid"
+msgstr ""
+
+#: apps/orders/models.py:24
+msgid "Is Canceled"
+msgstr ""
+
+#: apps/orders/models.py:26 apps/payment/models.py:24 apps/payment/models.py:71
+#: apps/store/models/product.py:26
+msgid "Status"
+msgstr ""
+
+#: apps/orders/models.py:27
+msgid "Payment status"
+msgstr ""
+
+#: apps/orders/models.py:32 apps/orders/models.py:59 apps/payment/models.py:21
+#: apps/payment/models.py:68
+msgid "Order"
+msgstr ""
+
+#: apps/orders/models.py:33
+msgid "Orders"
+msgstr ""
+
+#: apps/orders/models.py:69
+msgid "Order item"
+msgstr ""
+
+#: apps/orders/models.py:70
+msgid "Order items"
+msgstr ""
+
+#: apps/orders/models.py:77 apps/store/models/product.py:12
+#: apps/store/models/product.py:24 apps/store/models/product.py:53
+#: apps/store/models/product_parameters.py:6
+#: apps/store/models/product_parameters.py:17
+#: apps/store/models/product_parameters.py:29
+#: apps/store/models/product_parameters.py:41 apps/store/models/store.py:7
+msgid "Title"
+msgstr ""
+
+#: apps/orders/models.py:80
+msgid "Payment type"
+msgstr ""
+
+#: apps/orders/models.py:81
+msgid "Payment types"
+msgstr ""
+
+#: apps/payment/apps.py:8
+msgid "Payment"
+msgstr ""
+
+#: apps/payment/authentication.py:34
+msgid "Invalid username/password."
+msgstr ""
+
+#: apps/payment/models.py:9
+msgid "Waiting"
+msgstr ""
+
+#: apps/payment/models.py:11 apps/payment/models.py:16
+msgid "Failed"
+msgstr ""
+
+#: apps/payment/models.py:12
+msgid "Canceled"
+msgstr ""
+
+#: apps/payment/models.py:17
+msgid "Success"
+msgstr ""
+
+#: apps/payment/models.py:22
+msgid "Transaction ID"
+msgstr ""
+
+#: apps/payment/models.py:23
+msgid "Amount"
+msgstr ""
+
+#: apps/payment/models.py:25
+msgid "Paid At"
+msgstr ""
+
+#: apps/payment/models.py:26
+msgid "Cancel Time"
+msgstr ""
+
+#: apps/payment/models.py:50 apps/payment/models.py:69
+msgid "Transaction"
+msgstr ""
+
+#: apps/payment/models.py:51
+msgid "Transactions"
+msgstr ""
+
+#: apps/payment/models.py:55
+msgid "Header"
+msgstr ""
+
+#: apps/payment/models.py:56
+msgid "Body"
+msgstr ""
+
+#: apps/payment/models.py:57
+msgid "Method"
+msgstr ""
+
+#: apps/payment/models.py:63
+msgid "Payment Merchant Request Log"
+msgstr ""
+
+#: apps/payment/models.py:64
+msgid "Payment Merchant Request Logs"
+msgstr ""
+
+#: apps/payment/models.py:74
+msgid "Installment Log"
+msgstr ""
+
+#: apps/payment/models.py:75
+msgid "Installment Logs"
+msgstr ""
+
+#: apps/store/models/product.py:15 apps/store/models/product.py:23
+msgid "Category"
+msgstr ""
+
+#: apps/store/models/product.py:16
+msgid "Categories"
+msgstr ""
+
+#: apps/store/models/product.py:25
+msgid "Type"
+msgstr ""
+
+#: apps/store/models/product.py:28
+msgid "Description"
+msgstr ""
+
+#: apps/store/models/product.py:29
+msgid "Price"
+msgstr ""
+
+#: apps/store/models/product.py:30
+msgid "Number in stock"
+msgstr ""
+
+#: apps/store/models/product.py:31
+msgid "Purchase count"
+msgstr ""
+
+#: apps/store/models/product.py:32 apps/store/models/product_parameters.py:21
+#: apps/store/models/product_parameters.py:28
+msgid "Car brands"
+msgstr ""
+
+#: apps/store/models/product.py:33 apps/store/models/product_parameters.py:33
+msgid "Car models"
+msgstr ""
+
+#: apps/store/models/product.py:34
+msgid "Main color"
+msgstr ""
+
+#: apps/store/models/product.py:35
+msgid "Building material"
+msgstr ""
+
+#: apps/store/models/product.py:37
+msgid "Is active"
+msgstr ""
+
+#: apps/store/models/product.py:57
+msgid "Product photo"
+msgstr ""
+
+#: apps/store/models/product.py:58
+msgid "Product photos"
+msgstr ""
+
+#: apps/store/models/product.py:72
+msgid "Ordinal number"
+msgstr ""
+
+#: apps/store/models/product.py:75
+msgid "Premium photo"
+msgstr ""
+
+#: apps/store/models/product.py:76
+msgid "Premium photos"
+msgstr ""
+
+#: apps/store/models/product_parameters.py:10
+msgid "Materials"
+msgstr ""
+
+#: apps/store/models/product_parameters.py:20
+msgid "Car brand"
+msgstr ""
+
+#: apps/store/models/product_parameters.py:42
+msgid "Hex value"
+msgstr ""
+
+#: apps/store/models/product_parameters.py:45
+msgid "Color"
+msgstr ""
+
+#: apps/store/models/product_parameters.py:46
+msgid "Colors"
+msgstr ""
+
+#: apps/store/models/store.py:9
+msgid "Is official?"
+msgstr ""
+
+#: apps/store/models/store.py:11
+msgid "City or district"
+msgstr ""
+
+#: apps/store/models/store.py:13
+msgid "Orient"
+msgstr ""
+
+#: apps/store/models/store.py:17
+msgid "Stores"
+msgstr ""
+
+#: apps/users/models.py:29
+msgid "Username"
+msgstr ""
+
+#: apps/users/models.py:31
+msgid "First name"
+msgstr ""
+
+#: apps/users/models.py:32
+msgid "Last name"
+msgstr ""
+
+#: apps/users/models.py:37
+msgid "Active"
+msgstr ""
+
+#: apps/users/models.py:38
+msgid "Staff status"
+msgstr ""
+
+#: apps/users/models.py:40
+msgid "Date joined"
+msgstr ""
+
+#: apps/users/models.py:52
+msgid "Users"
+msgstr ""
+
+#: apps/users/models.py:60
+msgid "Chat id"
+msgstr ""
+
+#: apps/users/models.py:61
+msgid "Can receive?"
+msgstr ""
+
+#: apps/users/models.py:64
+msgid "Telegram user"
+msgstr ""
+
+#: apps/users/models.py:65
+msgid "Telegram users"
+msgstr ""
+
+#: apps/users/models.py:73
+msgid "Token"
+msgstr ""
+
+#: apps/users/models.py:80
+msgid "User token"
+msgstr ""
+
+#: apps/users/models.py:81
+msgid "User tokens"
+msgstr ""
+
+#: core/settings/base.py:144
+msgid "Russian"
+msgstr ""
+
+#: core/settings/base.py:145
+msgid "Uzbek"
+msgstr ""
