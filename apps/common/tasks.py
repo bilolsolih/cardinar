@@ -17,10 +17,16 @@ def photo_compress(pk, app_label, model_name, side=1024):
 
     photo_height = instance.photo.height
     photo_width = instance.photo.width
-
-    if photo_height > side:
-        height = side
-        width = int(photo_width / (photo_height / height))
+    if photo_height > side or photo_width > side:
+        if photo_height >= photo_width and photo_height > side:
+            height = side
+            width = int(photo_width / (photo_height / height))
+        elif photo_height < photo_width and photo_width > side:
+            width = side
+            height = int(photo_height / (photo_width / width))
+        else:
+            width = photo_width
+            height = photo_height
         buffer = BytesIO()
         quality = 100
         resized_image = Image.open(instance.photo.path).resize(size=(width, height))
