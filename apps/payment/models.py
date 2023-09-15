@@ -1,8 +1,14 @@
+from os import getenv
+
+from asgiref.sync import async_to_sync
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from telegram import Bot
+from telegram.error import NetworkError
 
 from apps.common.models import TimeStampedModel
+from apps.users.models import TelegramUser
 
 
 class TransactionStatus(models.TextChoices):
@@ -34,9 +40,25 @@ class Transaction(TimeStampedModel):
         self.save()
         self.apply_order()
 
+    def send_message_to_users(self, message):
+        bot = Bot(token=getenv('BOT_TOKEN'))
+        for user in TelegramUser.objects.filter(active=True):
+            async_to_sync(bot.send_message)(chat_id=user.chat_id, text=message)
+
+    def generate_message(self, order):
+        message = f"Payment:\n\nПолное имя: {order.full_name}\nТелефон: {order.phone_number}\n\n{order.final_price} Sums"
+        try:
+            self.send_message_to_users(message)
+        except NetworkError as e:
+            if 'Event loop is closed' in str(e):
+                pass
+            else:
+                raise ValueError('Some error happened which is not that Event loop closed error!')
+
     def apply_order(self):
         self.order.is_paid = True
         self.order.save()
+        self.generate_message(self.order)
 
     def cancel(self):
         self.status = TransactionStatus.CANCELED
@@ -66,7 +88,8 @@ class PaymentMerchantRequestLog(TimeStampedModel):
 
 class InstallmentLog(TimeStampedModel):
     order = models.ForeignKey("orders.Order", on_delete=models.CASCADE, verbose_name=_("Order"))
-    transaction = models.ForeignKey("payment.Transaction", on_delete=models.CASCADE, verbose_name=_("Transaction"), null=True)
+    transaction = models.ForeignKey("payment.Transaction", on_delete=models.CASCADE, verbose_name=_("Transaction"),
+                                    null=True)
     detail = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=63, verbose_name=_("Status"), choices=InstallmentLogStatus.choices)
 
