@@ -34,6 +34,8 @@ class Product(TimeStampedModel):
     main_color = models.ForeignKey(verbose_name=_('Main color'), to='store.Color', related_name='mc_products', on_delete=models.SET_NULL, null=True)
     building_material = models.ForeignKey(verbose_name=_('Building material'), to='store.BuildingMaterial', related_name='bm_products', on_delete=models.SET_NULL, null=True)
 
+    is_constructable = models.BooleanField(_('Constructable status'), default=False)
+
     active = models.BooleanField(verbose_name=_('Is active'), default=True)
 
     class Meta:
