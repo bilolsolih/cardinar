@@ -246,7 +246,7 @@ PROVIDERS = {
         "merchant_id": os.getenv('PAYME_MERCHANT_ID', None),
         "secret_key": os.getenv("PAYME_SECRET_KEY", None),
         "test_secret_key": os.getenv("PAYME_TEST_SECRET_KEY", None),
-        "callback_url": "https://test.paycom.uz"
+        "callback_url": "https://checkout.paycom.uz"
     }
 }
 
