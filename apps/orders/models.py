@@ -34,7 +34,7 @@ class Order(models.Model):
 
     @property
     def get_title(self):
-        return ', '.join([item.product.title for item in self.items])
+        return ', '.join([item.product.title for item in self.items.all()])
 
     @property
     def final_price(self):
