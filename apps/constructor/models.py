@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.common.models import TimeStampedModel
 from .choices import PART_TYPE, SUBCATEGORY
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class CustomProductModel(models.Model):
@@ -21,16 +22,10 @@ class CustomProductModel(models.Model):
 class Part(models.Model):
     category = models.CharField(max_length=1, choices=PART_TYPE)
     subcategory = models.CharField(max_length=1, choices=SUBCATEGORY)
-    product_model = models.ForeignKey(
-        'constructor.CustomProductModel', related_name='parts', on_delete=models.PROTECT, verbose_name=_('Product model')
-    )
+    product_model = models.ForeignKey('constructor.CustomProductModel', related_name='parts', on_delete=models.PROTECT, verbose_name=_('Product model'))
     title = models.CharField(max_length=256, verbose_name=_('Part name'), blank=True, null=True)
-    material = models.ForeignKey(
-        'store.BuildingMaterial', related_name='parts', on_delete=models.PROTECT, verbose_name=_('Material')
-    )
-    color = models.ForeignKey(
-        'store.Color', related_name='parts', on_delete=models.PROTECT, verbose_name=_('Color of the part')
-    )
+    material = models.ForeignKey('store.BuildingMaterial', related_name='parts', on_delete=models.PROTECT, verbose_name=_('Material'))
+    color = models.ForeignKey('store.Color', related_name='parts', on_delete=models.PROTECT, verbose_name=_('Color of the part'))
     photo = models.ImageField(upload_to='constructor/parts/', verbose_name=_('Photo of the part'))
 
     class Meta:
@@ -43,24 +38,17 @@ class Part(models.Model):
 
 class CustomProduct(TimeStampedModel):
     category = models.CharField(max_length=1, choices=PART_TYPE)
+    product = models.ForeignKey('store.Product', related_name='custom_products', on_delete=models.SET_NULL, null=True, verbose_name=_('Product'))
     product_model = models.ForeignKey('constructor.CustomProductModel', related_name='products', on_delete=models.PROTECT, verbose_name=_('Product model'))
-    central_part = models.ForeignKey('constructor.Part', related_name='cp_products', on_delete=models.PROTECT, verbose_name=_('Central part'))
-    back_part = models.ForeignKey('constructor.Part', related_name='bp_products', on_delete=models.PROTECT, verbose_name=_('Back part'), blank=True, null=True)
-    rear_part = models.ForeignKey('constructor.Part', related_name='rp_products', on_delete=models.PROTECT, verbose_name=_('Rear part'))
-    stitch = models.ForeignKey('constructor.Part', related_name='s_products', on_delete=models.PROTECT, verbose_name=_('Stitch'), blank=True, null=True)
-    kant = models.ForeignKey('constructor.Part', related_name='k_products', on_delete=models.PROTECT, verbose_name=_('Kant'))
+    full_name = models.CharField(_('Full name'), max_length=128)
+    phone_number = PhoneNumberField(_('Phone number'))
+    email = models.EmailField(_('Email'), blank=True, null=True)
+    photo = models.ImageField(_('Constructed product photo'), upload_to='images/constructor/products/%Y/%m/')
 
     remove_logo = models.BooleanField(default=False, verbose_name=_('Remove the logo?'))
     remove_podpyatnik = models.BooleanField(default=False, verbose_name=_('Remove the podpyatnik'), blank=True, null=True)
 
-    # central_material = models.ForeignKey('store.BuildingMaterial', related_name='cm_customproducts', on_delete=models.PROTECT, verbose_name=_('Material of central part'))
-    # central_color = models.ForeignKey('store.Color', related_name='cm_customproducts', on_delete=models.PROTECT, verbose_name=_('Color of central part'))
-    # back_material = models.ForeignKey('store.BuildingMaterial', related_name='bm_customproducts', on_delete=models.PROTECT, verbose_name=_('Material of back part'))
-    # back_color = models.ForeignKey('store.Color', related_name='bm_customproducts', on_delete=models.PROTECT, verbose_name=_('Color of back part'))
-    # rear_material = models.ForeignKey('store.BuildingMaterial', related_name='rm_customproducts', on_delete=models.PROTECT, verbose_name=_('Material of rear part'))
-    # rear_color = models.ForeignKey('store.Color', related_name='rm_customproducts', on_delete=models.PROTECT, verbose_name=_('Color of rear part'))
-    # stitch_color = models.ForeignKey('store.Color', related_name='s_customproducts', on_delete=models.PROTECT, verbose_name=_('Color of stitch'))
-    # kant_color = models.ForeignKey('store.Color', related_name='k_customproducts', on_delete=models.PROTECT, verbose_name=_('Color of Kant'))
+    is_active = models.BooleanField(_('Active status'), default=True)
 
     class Meta:
         verbose_name = _('Custom product')
