@@ -35,6 +35,8 @@ class OrderCreateAPIView(CreateAPIView):
             OrderItem.objects.create(
                 order=order, product=item.product, quantity=item.quantity, cost=item.cost, car_model=item.car_model
             )
+        for item in items:
+            item.delete()
 
         return order.get_payment_url()
 

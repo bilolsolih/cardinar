@@ -260,4 +260,6 @@ LOGGING = {
     },
 }
 
+CSRF_COOKIE_AGE = 604800
+
 STAGE = "develop"
