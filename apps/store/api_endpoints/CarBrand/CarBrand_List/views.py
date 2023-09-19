@@ -1,3 +1,4 @@
+from django.db.models import Q
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import ListAPIView
@@ -8,7 +9,6 @@ from .serializers import CarBrandListSerializer
 
 class CarBrandListAPIView(ListAPIView):
     serializer_class = CarBrandListSerializer
-    queryset = CarBrand.objects.all()
 
     @swagger_auto_schema(
         manual_parameters=[
@@ -20,8 +20,9 @@ class CarBrandListAPIView(ListAPIView):
 
     def get_queryset(self):
         category_id = self.kwargs.get('category_id', None)
+        print(category_id)
         if category_id:
-            return CarBrand.objects.filter(products__category__pk=category_id)
+            return CarBrand.objects.filter(Q(products__category_id=category_id) | Q(cars__products__category_id=category_id))
         else:
             return CarBrand.objects.all()
 
