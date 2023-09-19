@@ -19,7 +19,7 @@ class CarBrandListAPIView(ListAPIView):
         return self.list(request, *args, **kwargs)
 
     def get_queryset(self):
-        category_id = self.kwargs.get('category_id', None)
+        category_id = self.queryset.query_params.get('category_id', None)
         print(category_id)
         if category_id:
             return CarBrand.objects.filter(Q(products__category_id=category_id) | Q(cars__products__category_id=category_id))
