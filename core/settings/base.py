@@ -80,7 +80,6 @@ CSRF_TRUSTED_ORIGINS = [
     # Add other trusted origins as needed
 ]
 
-
 ROOT_URLCONF = "core.urls"
 
 TEMPLATES = [
@@ -143,7 +142,7 @@ LANGUAGES = [
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/home/cardina1/api.cardinar.uz/cardinar/static'
-STATICFILES_DIRS=[str(BASE_DIR) + "/assets",]
+STATICFILES_DIRS = [str(BASE_DIR) + "/assets", ]
 MEDIA_URL = "/media/"
 MEDIA_ROOT = '/home/cardina1/api.cardinar.uz/cardinar/media'
 

@@ -27,7 +27,9 @@ class CartItem(models.Model):
         verbose_name=_('Cart'), to='cart.Cart', related_name='items', on_delete=models.CASCADE, blank=True, null=True
     )
     device_id = models.CharField(verbose_name=_('Device id'), max_length=64, blank=True, null=True)
-    product = models.ForeignKey(verbose_name=_('Product'), to='store.Product', related_name='cart_items', on_delete=models.CASCADE)
+    product = models.ForeignKey(verbose_name=_('Product'), to='store.Product', related_name='cart_items',
+                                on_delete=models.CASCADE)
+    articul = models.ForeignKey('store.Articul', on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(verbose_name=_('Quantity'), default=0)
     cost = models.DecimalField(verbose_name=_('Cost'), max_digits=24, decimal_places=2, default=0)
     car_model = models.ForeignKey(
@@ -40,7 +42,7 @@ class CartItem(models.Model):
     def clean(self):
         if self.device_id:
             if CartItem.objects.filter(device_id=self.device_id, product=self.product).exists():
-                raise ValidationError({'product':'Item already in the cart.'})
+                raise ValidationError({'product': 'Item already in the cart.'})
         if self.cart:
             if CartItem.objects.filter(cart=self.cart, product=self.product).exists():
                 raise ValidationError({'product': 'Item already in the cart.'})

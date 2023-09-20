@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.common.models import TimeStampedModel
 from apps.store.choices import PRODUCT_STATUS, PRODUCT_TYPE
+from .product_parameters import CarModel
 
 
 class Category(models.Model):
@@ -32,7 +33,6 @@ class Product(TimeStampedModel):
     purchase_count = models.PositiveIntegerField(verbose_name=_('Purchase count'), default=0)
     car_brands = models.ManyToManyField(verbose_name=_('Car brands'), to='store.CarBrand', related_name='products',
                                         blank=True)
-    car_models = models.ManyToManyField(verbose_name=_('Car models'), to='store.CarModel', related_name='products')
     main_color = models.ForeignKey(verbose_name=_('Main color'), to='store.Color', related_name='mc_products',
                                    on_delete=models.SET_NULL, null=True)
     building_material = models.ForeignKey(verbose_name=_('Building material'), to='store.BuildingMaterial',
@@ -45,6 +45,10 @@ class Product(TimeStampedModel):
     class Meta:
         verbose_name = _('Product')
         verbose_name_plural = _('Product')
+
+    @property
+    def car_models(self):
+        return CarModel.objects.filter(articuls__product=self)
 
     @property
     def category_title(self):
