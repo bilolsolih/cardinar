@@ -58,6 +58,7 @@ class Order(models.Model):
 class OrderItem(models.Model):
     order = models.ForeignKey(verbose_name=_('Order'), to='orders.Order', related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(verbose_name=_('Product'), to='store.Product', related_name='order_items', on_delete=models.PROTECT)
+    articul = models.ForeignKey('store.Articul', on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(verbose_name=_('Quantity'))
     cost = models.PositiveIntegerField(verbose_name=_('Cost'), blank=True, null=True)
     car_model = models.ForeignKey(verbose_name=_('Car model'), to='store.CarModel', related_name='order_items', on_delete=models.CASCADE)

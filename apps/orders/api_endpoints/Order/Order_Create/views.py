@@ -33,7 +33,7 @@ class OrderCreateAPIView(CreateAPIView):
 
         for item in items:
             OrderItem.objects.create(
-                order=order, product=item.product, quantity=item.quantity, cost=item.cost, car_model=item.car_model
+                order=order, product=item.product, articul=item.articul, quantity=item.quantity, cost=item.cost, car_model=item.car_model
             )
         for item in items:
             item.delete()

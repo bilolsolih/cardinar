@@ -6,16 +6,16 @@ from apps.cart.models import CartItem
 class CartItemCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
-        fields = ['device_id', 'product', 'quantity', 'car_model']
+        fields = ['device_id', 'product', 'articul', 'quantity', 'car_model']
 
     def validate(self, data):
         user = self.context['request'].user
 
         if 'device_id' in data and data['device_id']:
-            if CartItem.objects.filter(device_id=data['device_id'], product=data['product']).exists():
+            if CartItem.objects.filter(device_id=data['device_id'], articul=data['articul']).exists():
                 raise serializers.ValidationError({'product': 'Item already in the cart.'})
         if user.is_authenticated:
-            if CartItem.objects.filter(cart=user.cart, product=data['product']).exists():
+            if CartItem.objects.filter(cart=user.cart, articul=data['articul']).exists():
                 raise serializers.ValidationError({'product': 'Item already in the cart.'})
         return data
 
@@ -23,12 +23,13 @@ class CartItemCreateSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         if user.is_authenticated:
             item = CartItem.objects.create(
-                cart=user.cart, product=data['product'], quantity=data['quantity'], car_model=data['car_model'],
+                cart=user.cart, product=data['product'], quantity=data['quantity'], car_model=data['car_model'], articul=data['articul'],
                 cost=(data['product'].price * data['quantity'])
             )
         else:
             item = CartItem.objects.create(
-                device_id=data['device_id'], product=data['product'], quantity=data['quantity'], car_model=data['car_model'],
+                device_id=data['device_id'], product=data['product'], quantity=data['quantity'],
+                car_model=data['car_model'], articu=data['articul'],
                 cost=(data['product'].price * data['quantity'])
             )
         return item
