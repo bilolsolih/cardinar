@@ -21,7 +21,8 @@ class InquiryCreateAPIView(CreateAPIView):
     def perform_create(self, serializer):
         q = serializer.save()
         if q.on_product:
-            product_details = f"ID: {q.on_product.pk}, Название: {q.on_product.title}, Категория: {q.on_product.category.title}"
+            product_details = f"ID: {q.on_product.pk}, Название: {q.on_product.title}, Категория: {q.on_product.category.title}\n" \
+                              f"Артикуль: {q.articul.title}\nМодель автомобиля: {q.articul.car_model.title}"
             message = f"Новый запрос:\n\nПолное имя: {q.full_name}\nТелефон: {q.phone_number}\nПочта: {q.email}\n{product_details}\nКоммент: {q.comment}"
         else:
             message = f"Новый запрос:\n\nПолное имя: {q.full_name}\nТелефон: {q.phone_number}\nПочта: {q.email}\nComments: {q.comment}"
