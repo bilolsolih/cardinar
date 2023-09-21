@@ -21,7 +21,7 @@ class CarBrandListAPIView(ListAPIView):
     def get_queryset(self):
         category_id = self.request.query_params.get('category_id', None)
         if category_id:
-            return CarBrand.objects.filter(Q(products__category_id=category_id) | Q(cars__products__category_id=category_id)).distinct()
+            return CarBrand.objects.filter(Q(products__category__pk=category_id) | Q(cars__articuls__product__category__pk=category_id)).distinct()
         else:
             return CarBrand.objects.all()
 
