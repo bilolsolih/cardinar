@@ -14,6 +14,7 @@ class Inquiry(TimeStampedModel):
         verbose_name=_('On product'), to='store.Product', related_name='inquiries', on_delete=models.CASCADE, blank=True, null=True
     )
     articul = models.ForeignKey('store.Articul', related_name='inquiries', on_delete=models.SET_NULL, null=True, blank=True)
+    is_one_click = models.BooleanField(default=False)
     active = models.BooleanField(verbose_name=_('Active?'), default=True)
 
     class Meta:

@@ -20,12 +20,15 @@ class InquiryCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         q = serializer.save()
-        if q.on_product:
-            product_details = f"ID: {q.on_product.pk}, Название: {q.on_product.title}, Категория: {q.on_product.category.title}\n" \
-                              f"Артикуль: {q.articul.title}\nМодель автомобиля: {q.articul.car_model.title}"
-            message = f"Новый запрос:\n\nПолное имя: {q.full_name}\nТелефон: {q.phone_number}\nПочта: {q.email}\n{product_details}\nКоммент: {q.comment}"
-        else:
-            message = f"Новый запрос:\n\nПолное имя: {q.full_name}\nТелефон: {q.phone_number}\nПочта: {q.email}\nComments: {q.comment}"
+        header = f"️Новый запрос: {q.pk}\n\n" if not q.is_one_click else "❗️❗️❗️Новый Buy-One-Click запрос❗️️❗️❗️"
+        full_name = f"Полное имя: {q.full_name}\n"
+        phone_number = f"Телефон: {q.phone_number}\n"
+        email = f"Почта: {q.email}\n" if q.email else None
+        product_details = f"ID: {q.on_product.pk}, Название: {q.on_product.title}, Категория: {q.on_product.category.title}\n" if q.on_product else None
+        articul = f"Артикуль: {q.articul.title}\nМодель автомобиля: {q.articul.car_model.title}\n" if q.articul else None
+        comment = f"Коммент: {q.comment}\n"
+
+        message = f"{header} {full_name} {phone_number} {email} {product_details} {articul} {comment}"
         try:
             self.send_message_to_users(message)
         except NetworkError as e:
@@ -33,5 +36,3 @@ class InquiryCreateAPIView(CreateAPIView):
                 pass
             else:
                 raise ValueError('Some error happened which is not that Event loop closed error!')
-
-# TODO: botga xabar jo'natadigan qismi celery orqali bo'lishi kerak
