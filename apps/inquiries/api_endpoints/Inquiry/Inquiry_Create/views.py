@@ -22,7 +22,7 @@ class InquiryCreateAPIView(CreateAPIView):
         q = serializer.save()
         if q.on_product:
             product_details = f"ID: {q.on_product.pk}, Название: {q.on_product.title}, Категория: {q.on_product.category.title}"
-            message = f"Новый запрос:\n\nПолное имя: {q.full_name}\nТелефон: {q.phone_number}\nПочта: {q.email}\n{product_details}"
+            message = f"Новый запрос:\n\nПолное имя: {q.full_name}\nТелефон: {q.phone_number}\nПочта: {q.email}\n{product_details}\nКоммент: {q.comment}"
         else:
             message = f"Новый запрос:\n\nПолное имя: {q.full_name}\nТелефон: {q.phone_number}\nПочта: {q.email}\nComments: {q.comment}"
         try:
