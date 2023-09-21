@@ -5,14 +5,14 @@ from apps.store.models.product import Product, Articul
 from apps.store.models.product_parameters import CarModel
 
 
-class CarModelInArticul(serializers.ModelSerializer):
+class CarModelInArticulInCartItem(serializers.ModelSerializer):
     class Meta:
         model = CarModel
         fields = '__all__'
 
 
 class ArticulInCartItem(serializers.ModelSerializer):
-    car_model = CarModelInArticul(many=False)
+    car_model = CarModelInArticulInCartItem(many=False)
 
     class Meta:
         model = Articul
