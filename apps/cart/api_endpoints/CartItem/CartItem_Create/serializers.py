@@ -29,7 +29,7 @@ class CartItemCreateSerializer(serializers.ModelSerializer):
         else:
             item = CartItem.objects.create(
                 device_id=data['device_id'], product=data['product'], quantity=data['quantity'],
-                car_model=data['car_model'], articu=data['articul'],
+                car_model=data['car_model'], articul=data['articul'],
                 cost=(data['product'].price * data['quantity'])
             )
         return item
