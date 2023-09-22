@@ -10,6 +10,7 @@ class Store(models.Model):
     region = models.CharField(verbose_name=_('Region'), max_length=128)
     district = models.CharField(verbose_name=_('City or district'), max_length=128)
     address = models.CharField(verbose_name=_('Address'), max_length=256)
+    iframe = models.TextField(verbose_name=_('iFrame HTML'), null=True, blank=True)
     orient = models.CharField(verbose_name=_('Orient'), max_length=256)
 
     class Meta:
