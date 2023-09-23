@@ -16,11 +16,7 @@ class UserRegisterAPIView(CreateAPIView):
     permission_classes = [IsNotRegisteredAlready]
     parser_classes = [JSONParser, FormParser]
 
-    @swagger_auto_schema(
-        manual_parameters=[
-            openapi.Parameter('device_id', openapi.IN_QUERY, description='Device id', type=openapi.TYPE_STRING),
-        ]
-    )
+    @swagger_auto_schema(manual_parameters=[openapi.Parameter('device_id', openapi.IN_QUERY, description='Device id', type=openapi.TYPE_STRING), ])
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
@@ -49,9 +45,8 @@ class UserRegisterAPIView(CreateAPIView):
             user.save()
             Cart.objects.create(user=user)
             device_id = self.request.query_params.get('device_id', None)
-            if device_id:
-                if CartItem.objects.filter(device_id=device_id).exists():
-                    CartItem.objects.filter(device_id=device_id).update(cart=user.cart)
+            if device_id and CartItem.objects.filter(device_id=device_id).exists():
+                CartItem.objects.filter(device_id=device_id).update(cart=user.cart)
             return Response(status=status.HTTP_201_CREATED)
 
 
