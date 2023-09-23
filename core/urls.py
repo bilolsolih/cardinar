@@ -5,8 +5,8 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from .schema import swagger_patterns
 from apps.payment.api_endpoints import payme
+from .schema import swagger_patterns
 
 urlpatterns = i18n_patterns(
     path("admin/", admin.site.urls),
@@ -21,6 +21,7 @@ urlpatterns = i18n_patterns(
     path("api/v1/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/v1/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path('api/v1/payments/verify/', payme.PaymeAPIView.as_view(), name='payme'),
+    path('api/v1/common/csrftoken/', include('apps.common.urls', namespace='common')),
 )
 
 urlpatterns += swagger_patterns

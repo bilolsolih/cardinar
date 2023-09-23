@@ -1,13 +1,13 @@
-from apps.users.models import User
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.generics import CreateAPIView
 from rest_framework.parsers import FormParser, JSONParser
 from rest_framework.response import Response
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
 
-from .custom_permission import IsNotRegisteredAlready
 from apps.cart.models import Cart, CartItem
+from apps.users.models import User
+from .custom_permission import IsNotRegisteredAlready
 from .serializers import UserRegisterSerializer
 
 
@@ -47,16 +47,11 @@ class UserRegisterAPIView(CreateAPIView):
 
             user.set_password(cd['password1'])
             user.save()
-            cart = Cart.objects.create(user=user)
+            Cart.objects.create(user=user)
             device_id = self.request.query_params.get('device_id', None)
             if device_id:
-                query_set = CartItem.objects.filter(device_id=device_id)
-                if query_set:
-                    for query in query_set:
-                        query.cart = cart
-                        del query.device_id
-                        query.save()
-
+                if CartItem.objects.filter(device_id=device_id).exists():
+                    CartItem.objects.filter(device_id=device_id).update(cart=user.cart)
             return Response(status=status.HTTP_201_CREATED)
 
 
