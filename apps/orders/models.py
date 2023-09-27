@@ -11,10 +11,8 @@ from .choices import DELIVERY_TYPES, ORDER_STATUS, PAYMENT_STATUS
 
 
 class Order(models.Model):
-    user = models.ForeignKey('users.User', related_name='orders', on_delete=models.CASCADE, blank=True, null=True,
-                             verbose_name=_('User'))
-    store = models.ForeignKey('store.Store', related_name='orders', on_delete=models.SET_NULL, null=True,
-                              verbose_name=_('Store'))
+    user = models.ForeignKey('users.User', related_name='orders', on_delete=models.CASCADE, blank=True, null=True, verbose_name=_('User'))
+    store = models.ForeignKey('store.Store', related_name='orders', on_delete=models.SET_NULL, null=True, verbose_name=_('Store'))
     full_name = models.CharField(_('Full name'), max_length=128)
     phone_number = PhoneNumberField(_('Phone number'), region='UZ')
     email = models.EmailField(_('Email'), blank=True, null=True)
@@ -90,5 +88,3 @@ class PaymentType(models.Model):
 
     def __str__(self):
         return self.title
-
-# todo: api lardagi permissionlarni ko'rib chiqish
