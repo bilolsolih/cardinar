@@ -5,6 +5,8 @@ from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
 
+# from ..jazzmin import *  # noqa
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -125,6 +127,10 @@ LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'core/locale'),
 ]
 
+LOCALE_DIRS = [
+    os.path.join(BASE_DIR, 'core/locale')
+]
+
 TIME_ZONE = "Asia/Tashkent"
 
 USE_I18N = True
@@ -214,7 +220,6 @@ LOGIN_URL = "users:user_login"
 LOGOUT_URL = "users:user_logout"
 
 AUTH_USER_MODEL = "users.User"
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

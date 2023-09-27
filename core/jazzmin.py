@@ -60,6 +60,7 @@ JAZZMIN_SETTINGS = {
         "auth.user": "collapsible",
         "auth.group": "vertical_tabs",
     },
+    "language_choose": True
 }
 
 JAZZMIN_UI_TWEAKS = {

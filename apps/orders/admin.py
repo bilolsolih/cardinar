@@ -1,7 +1,6 @@
 from django.contrib import admin
-from modeltranslation.admin import TranslationAdmin
 
-from .models import Order, OrderItem, PaymentType
+from .models import Order, OrderItem
 
 
 class OrderItemInOrder(admin.TabularInline):
@@ -14,6 +13,3 @@ class OrderAdmin(admin.ModelAdmin):
     list_display_links = ['id', 'full_name', 'phone_number']
     list_filter = ['delivery_type', 'is_paid', 'is_canceled']
     inlines = [OrderItemInOrder]
-
-
-admin.site.register(PaymentType, TranslationAdmin)

@@ -20,12 +20,12 @@ class InquiryCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         q = serializer.save()
-        header = f"️Новый запрос: {q.pk}\n\n" if not q.is_one_click else "❗️❗️❗️Новый Buy-One-Click запрос❗️️❗️❗️"
+        header = f"️Новый запрос: {q.pk}\n\n" if not q.is_one_click else "❗️❗️❗️Новый Buy-One-Click запрос❗️️❗️❗️\n\n"
         full_name = f"Полное имя: {q.full_name}\n"
         phone_number = f"Телефон: {q.phone_number}\n"
-        email = f"Почта: {q.email}\n" if q.email else None
-        product_details = f"ID: {q.on_product.pk}, Название: {q.on_product.title}, Категория: {q.on_product.category.title}\n" if q.on_product else None
-        articul = f"Артикуль: {q.articul.title}\nМодель автомобиля: {q.articul.car_model.title}\n" if q.articul else None
+        email = f"Почта: {q.email}\n" if q.email else "\n"
+        product_details = f"ID: {q.on_product.pk}, Название: {q.on_product.title}, Категория: {q.on_product.category.title}\n" if q.on_product else "\n"
+        articul = f"Артикуль: {q.articul.title}\nМодель автомобиля: {q.articul.car_model.title}\n" if q.articul else "\n"
         comment = f"Коммент: {q.comment}\n"
 
         message = f"{header} {full_name} {phone_number} {email} {product_details} {articul} {comment}"

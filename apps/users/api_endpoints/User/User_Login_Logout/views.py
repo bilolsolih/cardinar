@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 
 from .custom_permissions import IsNotAuthenticated
 from .serializers import UserLoginSerializer
+from apps.cart.models import CartItem
 
 
 class UserLoginAPIView(APIView):
@@ -18,6 +19,10 @@ class UserLoginAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         login(request, user)
+        device_id = request.query_params.get('device_id', None)
+        if device_id and CartItem.objects.filter(device_id=device_id).exists():
+            CartItem.objects.filter(device_id=device_id).update(cart=user.cart)
+
         return Response(status=status.HTTP_200_OK)
 
 
