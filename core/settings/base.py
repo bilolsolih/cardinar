@@ -37,7 +37,6 @@ CUSTOM_APPS = [
 ]
 
 DJANGO_APPS = [
-    "whitenoise.runserver_nostatic",
     "jazzmin",
     "django_filters",
     'modeltranslation',
@@ -216,15 +215,6 @@ LOGOUT_URL = "users:user_logout"
 
 AUTH_USER_MODEL = "users.User"
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
-        'LOCATION': '127:0.0.1:11211',
-    }
-}
-
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
-CELERY_RESULTS_BACKEND = 'django-db'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
