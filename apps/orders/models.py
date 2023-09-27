@@ -20,6 +20,12 @@ class Order(models.Model):
     email = models.EmailField(_('Email'), blank=True, null=True)
     delivery_type = models.CharField(_('Delivery type'), choices=DELIVERY_TYPES, max_length=1)
 
+    city = models.CharField(_('Destination city'), max_length=128, blank=True, null=True)
+    region = models.CharField(_('Region'), max_length=128, blank=True, null=True)
+    address = models.CharField(_('Address'), max_length=128, blank=True, null=True)
+    level = models.CharField(_('Floor number'), max_length=128, blank=True, null=True)
+    delivery_date = models.DateField(_('Delivery date'), blank=True, null=True)
+
     is_paid = models.BooleanField(default=False, verbose_name=_("Is Paid"))
     is_canceled = models.BooleanField(default=False, verbose_name=_("Is Canceled"))
 
@@ -62,12 +68,6 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField(verbose_name=_('Quantity'))
     cost = models.PositiveIntegerField(verbose_name=_('Cost'), blank=True, null=True)
     car_model = models.ForeignKey(verbose_name=_('Car model'), to='store.CarModel', related_name='order_items', on_delete=models.CASCADE)
-
-    city = models.CharField(_('Destination city'), max_length=128, blank=True, null=True)
-    region = models.CharField(_('Region'), max_length=128, blank=True, null=True)
-    address = models.CharField(_('Address'), max_length=128, blank=True, null=True)
-    level = models.CharField(_('Floor number'), max_length=128, blank=True, null=True)
-    delivery_date = models.DateField(_('Delivery date'), blank=True, null=True)
 
     @property
     def get_product_title(self):
