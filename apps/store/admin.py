@@ -1,7 +1,7 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
 
-from .models.product import Category, Product, Photo, PremiumPhoto, Articul
+from .models.product import Product, Photo, PremiumPhoto, Articul
 from .models.product_parameters import Color, CarModel, CarBrand, BuildingMaterial
 from .models.store import Store
 
@@ -41,6 +41,5 @@ class ProductAdmin(TranslationAdmin):
 admin.site.register(BuildingMaterial, TranslationAdmin)
 admin.site.register(CarBrand)
 admin.site.register(CarModel)
-admin.site.register(Category, TranslationAdmin)
 admin.site.register(Color)
 admin.site.register(Store)
