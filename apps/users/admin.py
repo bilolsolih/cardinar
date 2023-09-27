@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import User, TelegramUser, UserToken
+from .models import User, TelegramUser
 
 
 class CustomUserAdmin(UserAdmin):
@@ -33,12 +33,3 @@ class TelegramUserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(User, CustomUserAdmin)
-
-
-class UserTokenAdmin(admin.ModelAdmin):
-    list_display = ['user', 'token', 'is_expired']
-    readonly_fields = ['is_expired']
-
-
-admin.site.register(UserToken, UserTokenAdmin)
-# Register your models here.
