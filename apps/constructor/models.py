@@ -23,10 +23,13 @@ class CustomProductModel(models.Model):
 class Part(models.Model):
     category = models.CharField(max_length=1, choices=PART_TYPE)
     subcategory = models.CharField(max_length=1, choices=SUBCATEGORY)
-    product_model = models.ForeignKey('constructor.CustomProductModel', related_name='parts', on_delete=models.PROTECT, verbose_name=_('Product model'))
+    product_model = models.ForeignKey('constructor.CustomProductModel', related_name='parts', on_delete=models.PROTECT,
+                                      verbose_name=_('Product model'))
     title = models.CharField(max_length=256, verbose_name=_('Part name'), blank=True, null=True)
-    material = models.ForeignKey('store.BuildingMaterial', related_name='parts', on_delete=models.PROTECT, verbose_name=_('Material'))
-    color = models.ForeignKey('store.Color', related_name='parts', on_delete=models.PROTECT, verbose_name=_('Color of the part'))
+    material = models.ForeignKey('store.BuildingMaterial', related_name='parts', on_delete=models.PROTECT,
+                                 verbose_name=_('Material'))
+    color = models.ForeignKey('store.Color', related_name='parts', on_delete=models.PROTECT,
+                              verbose_name=_('Color of the part'))
     photo = models.ImageField(upload_to='constructor/parts/', verbose_name=_('Photo of the part'))
 
     class Meta:
@@ -39,15 +42,18 @@ class Part(models.Model):
 
 class CustomProduct(TimeStampedModel):
     category = models.CharField(max_length=1, choices=PART_TYPE)
-    product = models.ForeignKey('store.Product', related_name='custom_products', on_delete=models.SET_NULL, null=True, verbose_name=_('Product'))
-    product_model = models.ForeignKey('constructor.CustomProductModel', related_name='products', on_delete=models.PROTECT, verbose_name=_('Product model'))
+    product = models.ForeignKey('store.Product', related_name='custom_products', on_delete=models.SET_NULL, null=True,
+                                verbose_name=_('Product'))
+    product_model = models.ForeignKey('constructor.CustomProductModel', related_name='products',
+                                      on_delete=models.PROTECT, verbose_name=_('Product model'))
     full_name = models.CharField(_('Full name'), max_length=128)
     phone_number = PhoneNumberField(_('Phone number'))
     email = models.EmailField(_('Email'), blank=True, null=True)
     photo = models.ImageField(_('Constructed product photo'), upload_to='images/constructor/products/%Y/%m/')
 
     remove_logo = models.BooleanField(default=False, verbose_name=_('Remove the logo?'))
-    remove_podpyatnik = models.BooleanField(default=False, verbose_name=_('Remove the podpyatnik'), blank=True, null=True)
+    remove_podpyatnik = models.BooleanField(default=False, verbose_name=_('Remove the podpyatnik'), blank=True,
+                                            null=True)
 
     is_active = models.BooleanField(_('Active status'), default=True)
 
@@ -66,6 +72,7 @@ class CustomProduct(TimeStampedModel):
         message = f"Full Name: {self.full_name}\n"
         message += f"Phone Number: {self.phone_number}\n"
         message += f"Email: {self.email}\n"
+        message += f"Марка Автомобиля: {self.product.car_brands}\n"
 
         files = {'photo': open(self.photo.path, 'rb')}
 
@@ -77,4 +84,3 @@ class CustomProduct(TimeStampedModel):
 
         if response.status_code != 200:
             pass
-
