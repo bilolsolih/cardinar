@@ -73,7 +73,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
     'https://localhost:8080',
     'https://cardinar.uz',
-    'http://cardinar.uz'
+    'http://cardinar.uz',
+    'http://192.168.2.167:8080/'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
