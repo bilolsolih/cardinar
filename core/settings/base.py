@@ -83,7 +83,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://cardinar.uz",
     # Add other trusted origins as needed
 ]
-CSRF_COOKIE_SAMESITE = 'None'
+CSRF_USE_SESSIONS = True
 ROOT_URLCONF = "core.urls"
 
 TEMPLATES = [
