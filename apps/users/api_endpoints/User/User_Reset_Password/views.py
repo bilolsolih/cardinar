@@ -9,6 +9,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.views.decorators.csrf import csrf_protect
 
 from apps.users.models import User, UserToken
 from apps.users.tasks import send_email
@@ -48,6 +49,7 @@ class UserPasswordResetSendLinkAPIView(APIView):
 class UserPasswordResetAPIView(APIView):
     serializer_class = UserResetPasswordSerializer
 
+    @csrf_protect
     @swagger_auto_schema(request_body=UserResetPasswordSerializer)
     def post(self, request, uidb64, token):
         serializer = self.serializer_class(data=request.data)
