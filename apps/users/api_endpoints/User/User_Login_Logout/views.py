@@ -5,13 +5,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .custom_permissions import IsNotAuthenticated
 from .serializers import UserLoginSerializer
 from apps.cart.models import CartItem
 
 
 class UserLoginAPIView(APIView):
-    permission_classes = [IsNotAuthenticated]
 
     @swagger_auto_schema(request_body=UserLoginSerializer)
     def post(self, request):

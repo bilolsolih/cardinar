@@ -9,6 +9,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.views.decorators.csrf import csrf_exempt
 
 from apps.users.models import User, UserToken
 from apps.users.tasks import send_email
@@ -30,15 +31,12 @@ class UserPasswordResetSendLinkAPIView(APIView):
             return Response({'detail': 'User with this email doesn\'t exist.'}, status=status.HTTP_404_NOT_FOUND)
 
         token = default_token_generator.make_token(user)
-
-        if not UserToken.objects.filter(user=user).first():
-            UserToken.objects.create(token=token, user=user)
-        else:
-            user.token.token = token
-            user.token.save()
+        user.tokens.all().delete()
+        user.tokens.create(token=token)
 
         uid = urlsafe_base64_encode(force_bytes(user.pk))
-        reset_url = request.build_absolute_uri(reverse('users:password_reset', kwargs={'uidb64': uid, 'token': token}))
+        # reset_url = request.build_absolute_uri(reverse('users:password_reset', kwargs={'uidb64': uid, 'token': token}))
+        reset_url = f"http://cardinar.uz/users/reset_password/reset/{uid}/{token}/"
         send_email(
             subject='Password Reset',
             message=f'Click the link to reset your password: {reset_url}',
@@ -61,8 +59,8 @@ class UserPasswordResetAPIView(APIView):
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        token_in_database = UserToken.objects.filter(user=user, token=token).first()
-        if token_in_database and not token_in_database.is_expired:
+        token_in_database = user.tokens.last()
+        if token_in_database and not token_in_database.is_expired and default_token_generator.check_token(user, token):
             user.set_password(password1)
             user.save()
             token_in_database.delete()

@@ -2,6 +2,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+import django.middleware.csrf
 from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
 
@@ -56,8 +57,9 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -73,14 +75,15 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
     'https://localhost:8080',
     'https://cardinar.uz',
-    'http://cardinar.uz'
+    'http://cardinar.uz',
+    'http://192.168.2.167:8080/'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://cardinar.uz",
     # Add other trusted origins as needed
 ]
-
+CSRF_USE_SESSIONS = True
 ROOT_URLCONF = "core.urls"
 
 TEMPLATES = [
@@ -191,7 +194,6 @@ SIMPLE_JWT = {
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.SessionAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
