@@ -76,7 +76,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://localhost:8080',
     'https://cardinar.uz',
     'http://cardinar.uz',
-    'http://192.168.2.167:8080/'
+    'http://192.168.2.167:8080'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -195,6 +195,8 @@ SIMPLE_JWT = {
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
     "DEFAULT_THROTTLE_CLASSES": (
