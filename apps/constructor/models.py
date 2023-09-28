@@ -70,7 +70,6 @@ class CustomProduct(TimeStampedModel):
         message = f"Full Name: {self.full_name}\n"
         message += f"Phone Number: {self.phone_number}\n"
         message += f"Email: {self.email}\n"
-        message += f"Марка Автомобиля: {self.product.car_brands}\n"
 
         files = {'photo': open(self.photo.path, 'rb')}
 
