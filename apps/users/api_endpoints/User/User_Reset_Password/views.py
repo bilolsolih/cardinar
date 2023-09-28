@@ -50,7 +50,7 @@ class UserPasswordResetAPIView(APIView):
     serializer_class = UserResetPasswordSerializer
 
     @swagger_auto_schema(request_body=UserResetPasswordSerializer)
-    def get(self, request, uidb64, token):
+    def post(self, request, uidb64, token):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         password1 = serializer.validated_data['password1']
