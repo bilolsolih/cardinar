@@ -81,7 +81,6 @@ CORS_ALLOWED_ORIGINS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "https://cardinar.uz",
-    # Add other trusted origins as needed
 ]
 CSRF_USE_SESSIONS = True
 ROOT_URLCONF = "core.urls"

@@ -42,18 +42,16 @@ class Part(models.Model):
 
 class CustomProduct(TimeStampedModel):
     category = models.CharField(max_length=1, choices=PART_TYPE)
-    product = models.ForeignKey('store.Product', related_name='custom_products', on_delete=models.SET_NULL, null=True,
-                                verbose_name=_('Product'))
-    product_model = models.ForeignKey('constructor.CustomProductModel', related_name='products',
-                                      on_delete=models.PROTECT, verbose_name=_('Product model'))
+    product = models.ForeignKey('store.Product', related_name='custom_products', on_delete=models.SET_NULL, null=True, verbose_name=_('Product'))
+    product_model = models.ForeignKey('constructor.CustomProductModel', related_name='products', on_delete=models.PROTECT, verbose_name=_('Product model'))
     full_name = models.CharField(_('Full name'), max_length=128)
     phone_number = PhoneNumberField(_('Phone number'))
     email = models.EmailField(_('Email'), blank=True, null=True)
     photo = models.ImageField(_('Constructed product photo'), upload_to='images/constructor/products/%Y/%m/')
+    car_model = models.ForeignKey('store.CarModel', related_name='custom_products', on_delete=models.CASCADE, verbose_name=_('Car model'), null=True, blank=True)
 
     remove_logo = models.BooleanField(default=False, verbose_name=_('Remove the logo?'))
-    remove_podpyatnik = models.BooleanField(default=False, verbose_name=_('Remove the podpyatnik'), blank=True,
-                                            null=True)
+    remove_podpyatnik = models.BooleanField(default=False, verbose_name=_('Remove the podpyatnik'), blank=True, null=True)
 
     is_active = models.BooleanField(_('Active status'), default=True)
 
