@@ -1,11 +1,13 @@
 import requests
 from rest_framework.generics import CreateAPIView
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from apps.constructor.models import CustomProduct
 from .serializer import CustomProductCreateSerializer
 
 
 class CustomProductCreateAPIView(CreateAPIView):
+    parser_classes = [MultiPartParser, FormParser]
     serializer_class = CustomProductCreateSerializer
     queryset = CustomProduct.objects.all()
 
