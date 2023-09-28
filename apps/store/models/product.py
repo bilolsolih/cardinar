@@ -26,7 +26,7 @@ class Product(TimeStampedModel):
     title = models.CharField(verbose_name=_('Title'), max_length=256)
     type = models.CharField(verbose_name=_('Type'), choices=PRODUCT_TYPE, max_length=7, default='Basic')
     status = models.CharField(verbose_name=_('Status'), choices=PRODUCT_STATUS, max_length=4, blank=True, null=True)
-    photo = models.ImageField(verbose_name=_('Photo'), upload_to='images/store/products/%Y/%m/%d')
+    photo = models.ImageField(verbose_name=_('Photo'), upload_to='images/store/products/%Y/%m/%d', blank=True, null=True)
     description = RichTextField(verbose_name=_('Description'), blank=True, null=True)
     price = models.PositiveIntegerField(verbose_name=_('Price'))
     no_in_stock = models.PositiveIntegerField(verbose_name=_('Number in stock'), null=True, blank=True)
