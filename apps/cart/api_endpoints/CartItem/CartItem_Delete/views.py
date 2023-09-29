@@ -29,21 +29,10 @@ class CartItemDeleteAPIView(DestroyAPIView):
 
 
 class CartItemDeleteAllAPIView(APIView):
-    @swagger_auto_schema(
-        manual_parameters=[
-            openapi.Parameter('device_id', openapi.IN_QUERY, description='Device id', type=openapi.TYPE_STRING),
-        ]
-    )
+    @swagger_auto_schema(manual_parameters=[openapi.Parameter('device_id', openapi.IN_QUERY, description='Device id', type=openapi.TYPE_STRING),])
     def delete(self, request, *args, **kwargs):
-        before = CartItemListSerializer(data=self.get_queryset(), many=True)
-        before.is_valid()
         self.get_queryset().delete()
-        after = CartItemListSerializer(data=self.get_queryset(), many=True)
-        after.is_valid()
-        return Response({'before': before.data, 'after': after.data}, status=status.HTTP_204_NO_CONTENT)
-
-    def perform_destroy(self, query_set):
-        query_set.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     def get_queryset(self):
         user = self.request.user if self.request.user.is_authenticated else None
