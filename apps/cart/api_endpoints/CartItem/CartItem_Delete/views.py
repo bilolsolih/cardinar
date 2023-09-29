@@ -35,7 +35,7 @@ class CartItemDeleteAllAPIView(APIView):
     def delete(self, request, *args, **kwargs):
         query_set = self.get_queryset()
         query_set.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({'details': query_set},status=status.HTTP_204_NO_CONTENT)
 
     def get_queryset(self):
         user = self.request.user if self.request.user.is_authenticated else None
