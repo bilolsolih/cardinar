@@ -71,7 +71,6 @@ class TelegramUser(models.Model):
 class UserToken(TimeStampedModel):
     user = models.ForeignKey('users.User', related_name='tokens', on_delete=models.CASCADE, verbose_name=_('User'))
     token = models.CharField(verbose_name=_('Token'), max_length=128)
-    is_expired = models.BooleanField(_('Is expired?'), default=False)
 
     class Meta:
         verbose_name = _('User token')

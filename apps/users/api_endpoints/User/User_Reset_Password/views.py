@@ -60,7 +60,7 @@ class UserPasswordResetAPIView(APIView):
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         token_in_database = user.tokens.last()
-        if token_in_database and not token_in_database.is_expired and default_token_generator.check_token(user, token):
+        if token_in_database and default_token_generator.check_token(user, token):
             user.set_password(password1)
             user.save()
             token_in_database.delete()

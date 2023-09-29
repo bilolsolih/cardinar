@@ -33,21 +33,16 @@ class CartItemDeleteAllAPIView(APIView):
         ]
     )
     def delete(self, request, *args, **kwargs):
-        query_set = self.get_queryset()
+        self.get_queryset().delete()
+        return Response({'details': query_set}, status=status.HTTP_204_NO_CONTENT)
+    def perform_destroy(self, query_set):
         query_set.delete()
-        return Response({'details': query_set},status=status.HTTP_204_NO_CONTENT)
-
     def get_queryset(self):
         user = self.request.user if self.request.user.is_authenticated else None
         device_id = self.request.query_params.get('device_id', None)
-        if user and device_id:
-            return CartItem.objects.filter(Q(cart__user=user) | Q(device_id=device_id))
-        elif user and not device_id:
-            return CartItem.objects.filter(cart__user=user)
-        elif device_id and not user:
-            return CartItem.objects.filter(device_id=device_id)
-        else:
+        if not user and not device_id:
             raise ValueError('Either user must be authenticated or device_id must be provided')
+        return CartItem.objects.filter(Q(cart__user=user) | Q(device_id=device_id))
 
 
 __all__ = ['CartItemDeleteAPIView', 'CartItemDeleteAllAPIView']
