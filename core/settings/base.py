@@ -214,9 +214,8 @@ REST_FRAMEWORK = {
 }
 
 AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
     "apps.users.authentication_backends.PhoneNumberAuthBackend",
-
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
 LOGIN_URL = "users:user_login"
