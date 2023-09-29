@@ -36,8 +36,10 @@ class CartItemDeleteAllAPIView(APIView):
     )
     def delete(self, request, *args, **kwargs):
         before = CartItemListSerializer(data=self.get_queryset(), many=True)
+        before.is_valid()
         self.get_queryset().delete()
         after = CartItemListSerializer(data=self.get_queryset(), many=True)
+        after.is_valid()
         return Response({'before': before.data, 'after': after.data}, status=status.HTTP_204_NO_CONTENT)
 
     def perform_destroy(self, query_set):
