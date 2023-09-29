@@ -1,10 +1,12 @@
+from django.db.models import Q
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.generics import DestroyAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.db.models import Q
+
+from apps.cart.api_endpoints.CartItem.CartItem_List.serializers import CartItemListSerializer
 from apps.cart.models import CartItem
 
 
@@ -33,10 +35,14 @@ class CartItemDeleteAllAPIView(APIView):
         ]
     )
     def delete(self, request, *args, **kwargs):
+        before = CartItemListSerializer(data=self.get_queryset(), many=True)
         self.get_queryset().delete()
-        return Response({'details': query_set}, status=status.HTTP_204_NO_CONTENT)
+        after = CartItemListSerializer(data=self.get_queryset(), many=True)
+        return Response({'before': before.data, 'after': after.data}, status=status.HTTP_204_NO_CONTENT)
+
     def perform_destroy(self, query_set):
         query_set.delete()
+
     def get_queryset(self):
         user = self.request.user if self.request.user.is_authenticated else None
         device_id = self.request.query_params.get('device_id', None)
