@@ -43,7 +43,7 @@ class Part(models.Model):
 class CustomProduct(TimeStampedModel):
     category = models.CharField(max_length=1, choices=PART_TYPE)
     product = models.ForeignKey('store.Product', related_name='custom_products', on_delete=models.SET_NULL, null=True, verbose_name=_('Product'))
-    product_model = models.ForeignKey('constructor.CustomProductModel', related_name='products', on_delete=models.PROTECT, verbose_name=_('Product model'))
+    product_model = models.ForeignKey('constructor.CustomProductModel', related_name='products', on_delete=models.PROTECT, verbose_name=_('Product model'), null=True)
     full_name = models.CharField(_('Full name'), max_length=128)
     phone_number = PhoneNumberField(_('Phone number'))
     email = models.EmailField(_('Email'), blank=True, null=True)
