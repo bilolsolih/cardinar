@@ -61,23 +61,3 @@ class CustomProduct(TimeStampedModel):
 
     def __str__(self):
         return f"Custom product - {self.product_model.title}"
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        telegram_bot_token = '6689575443:AAHn148ymq6VL8qVgsLsv-iVVWfLoGOCi4Q'
-        chat_id = '-1001915286015'
-
-        message = f"Full Name: {self.full_name}\n"
-        message += f"Phone Number: {self.phone_number}\n"
-        message += f"Email: {self.email}\n"
-
-        files = {'photo': open(self.photo.path, 'rb')}
-
-        response = requests.post(
-            f"https://api.telegram.org/bot{telegram_bot_token}/sendPhoto",
-            data={'chat_id': chat_id, 'caption': message},
-            files=files
-        )
-
-        if response.status_code != 200:
-            pass
