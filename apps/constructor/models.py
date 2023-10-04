@@ -46,7 +46,7 @@ class CustomProduct(TimeStampedModel):
     product_model = models.ForeignKey('constructor.CustomProductModel', related_name='products', on_delete=models.PROTECT, verbose_name=_('Product model'), null=True)
     full_name = models.CharField(_('Full name'), max_length=128)
     phone_number = PhoneNumberField(_('Phone number'))
-    email = models.EmailField(_('Email'), blank=True, null=True)
+    email = models.CharField(_('Email'), blank=True, null=True, max_length=256)
     photo = models.ImageField(_('Constructed product photo'), upload_to='images/constructor/products/%Y/%m/')
     car_model = models.ForeignKey('store.CarModel', related_name='custom_products', on_delete=models.CASCADE, verbose_name=_('Car model'), null=True, blank=True)
 
