@@ -19,7 +19,7 @@ class CustomProductCreateAPIView(CreateAPIView):
 
         message = f"Full Name: {model.full_name}\n"
         message += f"Phone Number: {model.phone_number}\n"
-        message += f"Email: {model.email}\n"
+        message += f"Username: {model.email}\n"
         message += f"Марка Автомобиля: {model.car_model}\n"
 
         files = {'photo': open(model.photo.path, 'rb')}
