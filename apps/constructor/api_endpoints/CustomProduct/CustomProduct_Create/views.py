@@ -17,9 +17,9 @@ class CustomProductCreateAPIView(CreateAPIView):
         telegram_bot_token = '6689575443:AAHn148ymq6VL8qVgsLsv-iVVWfLoGOCi4Q'
         chat_id = '-1001915286015'
 
-        message = f"Full Name: {model.full_name}\n"
-        message += f"Phone Number: {model.phone_number}\n"
-        message += f"Username: {model.email}\n"
+        message = f"Ф.И.О: {model.full_name}\n"
+        message += f"Номер телефона: {model.phone_number}\n"
+        message += f"Телеграм: {model.email}\n"
         message += f"Марка Автомобиля: {model.car_model}\n"
 
         files = {'photo': open(model.photo.path, 'rb')}
