@@ -43,7 +43,6 @@ class OrderCreateAPIView(CreateAPIView):
             order_message += f"Регион: {order.region}\n"
             order_message += f"Адрес: {order.address}\n"
             order_message += f"Этаж: {order.level}\n"
-        order_message += f"Способ оплаты: {order.payment_method}\n"
         order_message += f"Цена: {order.store}\n"
 
         photos = []
