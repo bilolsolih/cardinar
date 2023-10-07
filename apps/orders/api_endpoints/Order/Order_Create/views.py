@@ -51,7 +51,7 @@ class OrderCreateAPIView(CreateAPIView):
             OrderItem.objects.create(
                 order=order, product=item.product, articul=item.articul, quantity=item.quantity, cost=item.cost, car_model=item.car_model
             )
-            photos.append(('photo', item.photo.photo.file))
+            photos.append(('photo', item.product.photo.file))
         for item in items:
             item.delete()
 
