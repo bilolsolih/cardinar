@@ -44,7 +44,7 @@ class Product(TimeStampedModel):
 
     @property
     def car_models(self):
-        return CarModel.objects.filter(articuls__product=self)
+        return CarModel.objects.filter(articuls__product=self).distinct()
 
     @property
     def category_title(self):
