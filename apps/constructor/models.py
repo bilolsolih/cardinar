@@ -46,7 +46,7 @@ class CustomProduct(TimeStampedModel):
     product_model = models.ForeignKey('constructor.CustomProductModel', related_name='products', on_delete=models.PROTECT, verbose_name=_('Product model'), null=True)
     full_name = models.CharField(_('Full name'), max_length=128)
     phone_number = PhoneNumberField(_('Phone number'))
-    email = models.EmailField(_('Email'), blank=True, null=True)
+    email = models.CharField(_('Email'), blank=True, null=True, max_length=256)
     photo = models.ImageField(_('Constructed product photo'), upload_to='images/constructor/products/%Y/%m/')
     car_model = models.ForeignKey('store.CarModel', related_name='custom_products', on_delete=models.CASCADE, verbose_name=_('Car model'), null=True, blank=True)
 
@@ -61,23 +61,3 @@ class CustomProduct(TimeStampedModel):
 
     def __str__(self):
         return f"Custom product - {self.product_model.title}"
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        telegram_bot_token = '6689575443:AAHn148ymq6VL8qVgsLsv-iVVWfLoGOCi4Q'
-        chat_id = '-1001915286015'
-
-        message = f"Full Name: {self.full_name}\n"
-        message += f"Phone Number: {self.phone_number}\n"
-        message += f"Email: {self.email}\n"
-
-        files = {'photo': open(self.photo.path, 'rb')}
-
-        response = requests.post(
-            f"https://api.telegram.org/bot{telegram_bot_token}/sendPhoto",
-            data={'chat_id': chat_id, 'caption': message},
-            files=files
-        )
-
-        if response.status_code != 200:
-            pass

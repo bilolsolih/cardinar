@@ -8,7 +8,7 @@ from apps.common.models import TimeStampedModel
 class Inquiry(TimeStampedModel):
     full_name = models.CharField(verbose_name=_('Full name'), max_length=128)
     phone_number = PhoneNumberField(verbose_name=_('Phone number'))
-    email = models.EmailField(verbose_name=_('Email'), blank=True, null=True)
+    email = models.CharField(verbose_name=_('Email'), blank=True, null=True, max_length=256)
     comment = models.TextField(verbose_name=_('Comment'), blank=True, null=True)
     on_product = models.ForeignKey(
         verbose_name=_('On product'), to='store.Product', related_name='inquiries', on_delete=models.CASCADE, blank=True, null=True
