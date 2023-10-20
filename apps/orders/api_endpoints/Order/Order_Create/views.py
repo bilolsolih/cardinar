@@ -24,7 +24,8 @@ class OrderCreateAPIView(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         payment_url = self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response({'message': serializer.data, 'payment_url': payment_url}, status=status.HTTP_201_CREATED, headers=headers)
+        return Response({'message': serializer.data, 'payment_url': payment_url}, status=status.HTTP_201_CREATED,
+                        headers=headers)
 
     def perform_create(self, serializer):
         user = self.request.user if self.request.user.is_authenticated else None
@@ -44,18 +45,22 @@ class OrderCreateAPIView(CreateAPIView):
             order_message += f"Регион: {order.region}\n"
             order_message += f"Адрес: {order.address}\n"
             order_message += f"Этаж: {order.level}\n"
-        order_message += f"Цена: {order.final_price}\n"
-        order_url = f"https://api.cardinar.uz/ru/admin/orders/order/{order.id}/change/"
-        order_message += f"URL: {order_url}\n"
-        photos = []
 
+        photos = []
+        overall_cost = 0
         for item in items:
             OrderItem.objects.create(
-                order=order, product=item.product, articul=item.articul, quantity=item.quantity, cost=item.cost, car_model=item.car_model
+                order=order, product=item.product, articul=item.articul, quantity=item.quantity, cost=item.cost,
+                car_model=item.car_model
             )
             photos.append(('photo', item.product.photo.file))
+            overall_cost += item.cost
         for item in items:
             item.delete()
+
+        order_message += f"Цена: {overall_cost}\n"
+        order_url = f"https://api.cardinar.uz/ru/admin/orders/order/{order.id}/change/"
+        order_message += f"URL: {order_url}\n"
 
         telegram_bot_token = '6689575443:AAHn148ymq6VL8qVgsLsv-iVVWfLoGOCi4Q'
         chat_id = '-1001915286015'
