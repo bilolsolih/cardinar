@@ -1,4 +1,5 @@
 import requests
+from django.urls import reverse
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
@@ -43,8 +44,9 @@ class OrderCreateAPIView(CreateAPIView):
             order_message += f"Регион: {order.region}\n"
             order_message += f"Адрес: {order.address}\n"
             order_message += f"Этаж: {order.level}\n"
-        order_message += f"Цена: {order.store}\n"
-
+        order_message += f"Цена: {order.final_price}\n"
+        order_url = reverse('order-detail', kwargs={'pk': order.id})
+        order_message += f"URL: {order_url}\n"
         photos = []
 
         for item in items:
@@ -60,7 +62,7 @@ class OrderCreateAPIView(CreateAPIView):
 
         response = requests.post(
             f"https://api.telegram.org/bot{telegram_bot_token}/sendPhoto",
-            data={'chat_id': chat_id, 'caption': order_message},
+            data={'chat_id': chat_id, 'caption': order_message, 'url': order_url},
             files=photos
         )
 
