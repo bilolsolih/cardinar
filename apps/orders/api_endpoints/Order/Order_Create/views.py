@@ -45,7 +45,7 @@ class OrderCreateAPIView(CreateAPIView):
             order_message += f"Адрес: {order.address}\n"
             order_message += f"Этаж: {order.level}\n"
         order_message += f"Цена: {order.final_price}\n"
-        order_url = reverse('OrderCreateAPIView', kwargs={'pk': order.id})
+        order_url = f"https://api.cardinar.uz/ru/admin/orders/order/{order.id}/change/"
         order_message += f"URL: {order_url}\n"
         photos = []
 
